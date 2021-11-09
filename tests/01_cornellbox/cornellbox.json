@@ -1,0 +1,145 @@
+{
+  "asset": {
+    "generator": "Yocto/GL - https://github.com/xelatihy/yocto-gl",
+    "version": "4.2"
+  },
+  "cameras": [
+    {
+      "name": "camera1",
+      "aspect": 1.0,
+      "film": 0.024000000208616257,
+      "focus": 3.9000000953674316,
+      "frame": [
+        1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0,
+        3.9000000953674316
+      ],
+      "lens": 0.03500000014901161
+    }
+  ],
+  "materials": [
+    {
+      "name": "backwall",
+      "color": [0.7250000238418579, 0.7099999785423279, 0.6800000071525574],
+      "displacement": 1.0,
+      "type": "matte"
+    },
+    {
+      "name": "ceiling",
+      "color": [0.7250000238418579, 0.7099999785423279, 0.6800000071525574],
+      "displacement": 1.0,
+      "type": "matte"
+    },
+    {
+      "name": "floor",
+      "color": [0.7250000238418579, 0.7099999785423279, 0.6800000071525574],
+      "displacement": 1.0,
+      "type": "matte"
+    },
+    {
+      "name": "leftwall",
+      "color": [0.6299999952316284, 0.06499999761581421, 0.05000000074505806],
+      "displacement": 1.0,
+      "type": "matte"
+    },
+    {
+      "name": "light",
+      "displacement": 1.0,
+      "emission": [17.0, 12.0, 4.0],
+      "type": "matte"
+    },
+    {
+      "name": "rightwall",
+      "color": [0.14000000059604645, 0.44999998807907104, 0.09099999815225601],
+      "displacement": 1.0,
+      "type": "matte"
+    },
+    {
+      "name": "shortbox",
+      "color": [0.7250000238418579, 0.7099999785423279, 0.6800000071525574],
+      "displacement": 1.0,
+      "type": "matte"
+    },
+    {
+      "name": "tallbox",
+      "color": [0.7250000238418579, 0.7099999785423279, 0.6800000071525574],
+      "displacement": 1.0,
+      "type": "matte"
+    }
+  ],
+  "shapes": [
+    {
+      "name": "backwall",
+      "uri": "shapes/backwall.ply"
+    },
+    {
+      "name": "ceiling",
+      "uri": "shapes/ceiling.ply"
+    },
+    {
+      "name": "floor",
+      "uri": "shapes/floor.ply"
+    },
+    {
+      "name": "leftwall",
+      "uri": "shapes/leftwall.ply"
+    },
+    {
+      "name": "light",
+      "uri": "shapes/light.ply"
+    },
+    {
+      "name": "rightwall",
+      "uri": "shapes/rightwall.ply"
+    },
+    {
+      "name": "shortbox",
+      "uri": "shapes/shortbox.ply"
+    },
+    {
+      "name": "tallbox",
+      "uri": "shapes/tallbox.ply"
+    }
+  ],
+  "instances": [
+    {
+      "name": "backwall",
+      "material": 0,
+      "shape": 0
+    },
+    {
+      "name": "ceiling",
+      "material": 1,
+      "shape": 1
+    },
+    {
+      "name": "floor",
+      "material": 2,
+      "shape": 2
+    },
+    {
+      "name": "leftwall",
+      "material": 3,
+      "shape": 3
+    },
+    {
+      "name": "light",
+      "material": 4,
+      "shape": 4
+    },
+    {
+      "name": "rightwall",
+      "material": 5,
+      "shape": 5
+    },
+    {
+      "name": "shortbox",
+      "material": 6,
+      "shape": 6
+    },
+    {
+      "name": "tallbox",
+      "material": 7,
+      "shape": 7
+    }
+  ]
+}

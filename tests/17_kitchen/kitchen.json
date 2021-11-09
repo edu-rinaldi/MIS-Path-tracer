@@ -1,0 +1,3633 @@
+{
+  "asset": {
+    "copyright": "Model by Jay from benedikt-bitterli.me/resources-Model by Artist from benedikt-bitterli.me/resources",
+    "generator": "Yocto/GL - https://github.com/xelatihy/yocto-gl",
+    "version": "4.2"
+  },
+  "cameras": [
+    {
+      "name": "camera1",
+      "aspect": 1.7777777910232544,
+      "focus": 10.0,
+      "frame": [
+        0.8987399935722351,
+        1.8626500342122654e-09,
+        -0.43848100304603577,
+        -0.01827160082757473,
+        0.999131977558136,
+        -0.037450700998306274,
+        0.43810001015663147,
+        0.0416703000664711,
+        0.8979600071907043,
+        1.2110048532485962,
+        1.804750680923462,
+        3.852393865585327
+      ],
+      "lens": 0.031176913529634476
+    }
+  ],
+  "textures": [
+    {
+      "name": "texture10",
+      "uri": "textures/texture10.png"
+    },
+    {
+      "name": "texture01",
+      "uri": "textures/texture01.png"
+    },
+    {
+      "name": "texture02",
+      "uri": "textures/texture02.png"
+    },
+    {
+      "name": "texture04",
+      "uri": "textures/texture04.png"
+    },
+    {
+      "name": "texture07",
+      "uri": "textures/texture07.png"
+    },
+    {
+      "name": "texture06",
+      "uri": "textures/texture06.png"
+    },
+    {
+      "name": "texture11",
+      "uri": "textures/texture11.png"
+    },
+    {
+      "name": "texture05",
+      "uri": "textures/texture05.png"
+    },
+    {
+      "name": "texture03",
+      "uri": "textures/texture03.png"
+    },
+    {
+      "name": "texture09",
+      "uri": "textures/texture09.png"
+    },
+    {
+      "name": "texture08",
+      "uri": "textures/texture08.png"
+    }
+  ],
+  "materials": [
+    {
+      "name": "material01",
+      "color": [
+        0.5717650055885315,
+        0.5635349750518799,
+        0.5599719882011414
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material02",
+      "color": [
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421
+      ],
+      "type": "reflective"
+    },
+    {
+      "name": "material03",
+      "color": [
+        0.6875475645065308,
+        0.6490657925605774,
+        0.6870107650756836
+      ],
+      "roughness": 0.2828426957130432,
+      "type": "reflective"
+    },
+    {
+      "name": "material04",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 0,
+      "type": "matte"
+    },
+    {
+      "name": "material05",
+      "color": [
+        0.6120659708976746,
+        0.6120659708976746,
+        0.6120659708976746
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material06",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 0,
+      "type": "matte"
+    },
+    {
+      "name": "material07",
+      "color": [
+        0.5785959959030151,
+        0.5785959959030151,
+        0.5785959959030151
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material08",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 1,
+      "type": "matte"
+    },
+    {
+      "name": "material09",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "type": "refractive"
+    },
+    {
+      "name": "material10",
+      "color": [
+        0.6120659708976746,
+        0.6120659708976746,
+        0.6120659708976746
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material11",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 2,
+      "roughness": 0.15811388194561005,
+      "type": "glossy"
+    },
+    {
+      "name": "material12",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 2,
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material13",
+      "color": [
+        0.3940829932689667,
+        0.32503700256347656,
+        0.26317501068115234
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material14",
+      "color": [
+        0.5478569865226746,
+        0.5478569865226746,
+        0.5478569865226746
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material15",
+      "color": [
+        0.6875475645065308,
+        0.6490657925605774,
+        0.6870107650756836
+      ],
+      "roughness": 0.273861289024353,
+      "type": "reflective"
+    },
+    {
+      "name": "material16",
+      "color": [
+        0.0013729999773204327,
+        0.0013729999773204327,
+        0.0013729999773204327
+      ],
+      "roughness": 0.1414213478565216,
+      "type": "glossy"
+    },
+    {
+      "name": "material17",
+      "color": [
+        0.015395999886095524,
+        0.015395999886095524,
+        0.015395999886095524
+      ],
+      "roughness": 0.2828426957130432,
+      "type": "glossy"
+    },
+    {
+      "name": "material18",
+      "color": [
+        0.6875475645065308,
+        0.6490657925605774,
+        0.6870107650756836
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "reflective"
+    },
+    {
+      "name": "material19",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 3,
+      "roughness": 0.22360679507255554,
+      "type": "glossy"
+    },
+    {
+      "name": "material20",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 1,
+      "type": "matte"
+    },
+    {
+      "name": "material21",
+      "color": [
+        0.6875475645065308,
+        0.6490657925605774,
+        0.6870107650756836
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "reflective"
+    },
+    {
+      "name": "material22",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 1,
+      "type": "matte"
+    },
+    {
+      "name": "material23",
+      "color": [
+        0.006310000084340572,
+        0.006310000084340572,
+        0.006310000084340572
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material24",
+      "color": [
+        0.9280474185943604,
+        0.9178045988082886,
+        0.9189086556434631
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "reflective"
+    },
+    {
+      "name": "material25",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 4,
+      "type": "matte"
+    },
+    {
+      "name": "material26",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 5,
+      "type": "matte"
+    },
+    {
+      "name": "material27",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 1,
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material28",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 6,
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material29",
+      "color": [
+        0.6120659708976746,
+        0.6120659708976746,
+        0.6120659708976746
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material30",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material31",
+      "color": [
+        0.5924379825592041,
+        0.0,
+        0.0029319999739527702
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material32",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 4,
+      "type": "matte"
+    },
+    {
+      "name": "material33",
+      "color": [
+        0.3008370101451874,
+        0.2814350128173828,
+        0.2431890070438385
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material34",
+      "color": [
+        1.0,
+        0.2047100067138672,
+        0.0
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material35",
+      "color": [
+        0.13609899580478668,
+        0.28445199131965637,
+        0.005522000137716532
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material36",
+      "color": [
+        0.030256999656558037,
+        0.19751599431037903,
+        0.0
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material37",
+      "color": [
+        0.47617700695991516,
+        0.0,
+        0.0
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material38",
+      "color": [
+        0.6875475645065308,
+        0.6490657925605774,
+        0.6870107650756836
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "reflective"
+    },
+    {
+      "name": "material39",
+      "color": [
+        0.006310000084340572,
+        0.006310000084340572,
+        0.006310000084340572
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material40",
+      "color": [
+        0.03994699940085411,
+        0.14198000729084015,
+        0.0033030000049620867
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material41",
+      "color": [
+        0.6875475645065308,
+        0.6490657925605774,
+        0.6870107650756836
+      ],
+      "roughness": 0.22360679507255554,
+      "type": "reflective"
+    },
+    {
+      "name": "material42",
+      "color": [
+        0.6875475645065308,
+        0.6490657925605774,
+        0.6870107650756836
+      ],
+      "roughness": 0.22360679507255554,
+      "type": "reflective"
+    },
+    {
+      "name": "material43",
+      "color": [
+        0.9280474185943604,
+        0.9178045988082886,
+        0.9189086556434631
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "reflective"
+    },
+    {
+      "name": "material44",
+      "color": [
+        0.9280474185943604,
+        0.9178045988082886,
+        0.9189086556434631
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "reflective"
+    },
+    {
+      "name": "material45",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "type": "refractive"
+    },
+    {
+      "name": "material46",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "type": "refractive"
+    },
+    {
+      "name": "material47",
+      "color": [
+        0.04736600071191788,
+        0.04736600071191788,
+        0.04736600071191788
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material48",
+      "color": [
+        0.5785959959030151,
+        0.5785959959030151,
+        0.5785959959030151
+      ],
+      "roughness": 0.03162277862429619,
+      "type": "glossy"
+    },
+    {
+      "name": "material49",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 7,
+      "roughness": 0.22360679507255554,
+      "type": "glossy"
+    },
+    {
+      "name": "material50",
+      "color": [
+        0.0805639997124672,
+        0.0813089981675148,
+        0.08014699816703796
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material51",
+      "color": [
+        0.6875475645065308,
+        0.6490657925605774,
+        0.6870107650756836
+      ],
+      "roughness": 0.1414213478565216,
+      "type": "reflective"
+    },
+    {
+      "name": "material52",
+      "color": [
+        0.02899100072681904,
+        0.02899100072681904,
+        0.02899100072681904
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material53",
+      "color": [
+        0.9280474185943604,
+        0.9178045988082886,
+        0.9189086556434631
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "reflective"
+    },
+    {
+      "name": "material54",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 8,
+      "type": "matte"
+    },
+    {
+      "name": "material55",
+      "type": "matte"
+    },
+    {
+      "name": "material56",
+      "color": [
+        0.7931100130081177,
+        0.7931100130081177,
+        0.7931100130081177
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material57",
+      "color": [
+        0.4791789948940277,
+        0.4791789948940277,
+        0.4791789948940277
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material58",
+      "color": [
+        0.5417979955673218,
+        0.2976529896259308,
+        0.052841998636722565
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material59",
+      "color": [
+        0.5785959959030151,
+        0.5785959959030151,
+        0.5785959959030151
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material60",
+      "color": [
+        0.572422981262207,
+        0.572422981262207,
+        0.572422981262207
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material61",
+      "color": [
+        0.5717650055885315,
+        0.5635349750518799,
+        0.5599719882011414
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material62",
+      "color": [
+        0.5789129734039307,
+        0.5789129734039307,
+        0.5789129734039307
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material63",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 1,
+      "roughness": 0.20000000298023224,
+      "type": "glossy"
+    },
+    {
+      "name": "material64",
+      "color": [
+        0.9280474185943604,
+        0.9178045988082886,
+        0.9189086556434631
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "reflective"
+    },
+    {
+      "name": "material65",
+      "color": [
+        0.006310000084340572,
+        0.006310000084340572,
+        0.006310000084340572
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "glossy"
+    },
+    {
+      "name": "material66",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "type": "refractive"
+    },
+    {
+      "name": "material67",
+      "color": [
+        0.04736600071191788,
+        0.04736600071191788,
+        0.04736600071191788
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material68",
+      "color": [
+        0.5785959959030151,
+        0.5785959959030151,
+        0.5785959959030151
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material69",
+      "color": [
+        0.21763800084590912,
+        0.21763800084590912,
+        0.21763800084590912
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material70",
+      "color": [
+        0.5785959959030151,
+        0.5785959959030151,
+        0.5785959959030151
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material71",
+      "color": [
+        0.6120659708976746,
+        0.49950501322746277,
+        0.37867599725723267
+      ],
+      "opacity": 0.6120659708976746,
+      "roughness": 0.6795293092727661,
+      "type": "glossy"
+    },
+    {
+      "name": "material72",
+      "color": [
+        0.389508992433548,
+        0.37258899211883545,
+        0.2937470078468323
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material73",
+      "color": [
+        0.6399999856948853,
+        0.6001530289649963,
+        0.43448999524116516
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material74",
+      "color": [
+        0.9280474185943604,
+        0.9178045988082886,
+        0.9189086556434631
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "reflective"
+    },
+    {
+      "name": "material75",
+      "color": [
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421
+      ],
+      "type": "reflective"
+    },
+    {
+      "name": "material76",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 9,
+      "type": "matte"
+    },
+    {
+      "name": "material77",
+      "color": [
+        0.6875475645065308,
+        0.6490657925605774,
+        0.6870107650756836
+      ],
+      "roughness": 0.3162277638912201,
+      "type": "reflective"
+    },
+    {
+      "name": "material78",
+      "opacity": 0.0,
+      "roughness": 0.6795293092727661,
+      "type": "glossy"
+    },
+    {
+      "name": "material79",
+      "color": [
+        0.6399999856948853,
+        0.6399999856948853,
+        0.6399999856948853
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material80",
+      "color": [
+        0.015077999792993069,
+        0.015077999792993069,
+        0.015077999792993069
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material81",
+      "color": [
+        0.35837501287460327,
+        0.3009360134601593,
+        0.12861700356006622
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material82",
+      "color": [
+        0.06682199984788895,
+        0.028495000675320625,
+        0.013826999813318253
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material83",
+      "color": [
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421
+      ],
+      "type": "reflective"
+    },
+    {
+      "name": "material84",
+      "color": [
+        0.5785959959030151,
+        0.5785959959030151,
+        0.5785959959030151
+      ],
+      "roughness": 0.03162277862429619,
+      "type": "glossy"
+    },
+    {
+      "name": "material85",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_tex": 10,
+      "type": "matte"
+    },
+    {
+      "name": "material86",
+      "color": [
+        0.5785959959030151,
+        0.5785959959030151,
+        0.5785959959030151
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material87",
+      "emission": [
+        16.03204345703125,
+        16.03204345703125,
+        16.03204345703125
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material88",
+      "emission": [
+        11.221238136291504,
+        11.221238136291504,
+        11.221238136291504
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material89",
+      "emission": [
+        11.221238136291504,
+        11.221238136291504,
+        11.221238136291504
+      ],
+      "type": "matte"
+    },
+    {
+      "name": "material90",
+      "emission": [
+        11.221238136291504,
+        11.221238136291504,
+        11.221238136291504
+      ],
+      "type": "matte"
+    }
+  ],
+  "shapes": [
+    {
+      "name": "shape001",
+      "uri": "shapes/shape001.ply"
+    },
+    {
+      "name": "shape002",
+      "uri": "shapes/shape002.ply"
+    },
+    {
+      "name": "shape003",
+      "uri": "shapes/shape003.ply"
+    },
+    {
+      "name": "shape004",
+      "uri": "shapes/shape004.ply"
+    },
+    {
+      "name": "shape005",
+      "uri": "shapes/shape005.ply"
+    },
+    {
+      "name": "shape006",
+      "uri": "shapes/shape006.ply"
+    },
+    {
+      "name": "shape007",
+      "uri": "shapes/shape007.ply"
+    },
+    {
+      "name": "shape008",
+      "uri": "shapes/shape008.ply"
+    },
+    {
+      "name": "shape009",
+      "uri": "shapes/shape009.ply"
+    },
+    {
+      "name": "shape010",
+      "uri": "shapes/shape010.ply"
+    },
+    {
+      "name": "shape011",
+      "uri": "shapes/shape011.ply"
+    },
+    {
+      "name": "shape012",
+      "uri": "shapes/shape012.ply"
+    },
+    {
+      "name": "shape013",
+      "uri": "shapes/shape013.ply"
+    },
+    {
+      "name": "shape014",
+      "uri": "shapes/shape014.ply"
+    },
+    {
+      "name": "shape015",
+      "uri": "shapes/shape015.ply"
+    },
+    {
+      "name": "shape016",
+      "uri": "shapes/shape016.ply"
+    },
+    {
+      "name": "shape017",
+      "uri": "shapes/shape017.ply"
+    },
+    {
+      "name": "shape018",
+      "uri": "shapes/shape018.ply"
+    },
+    {
+      "name": "shape019",
+      "uri": "shapes/shape019.ply"
+    },
+    {
+      "name": "shape020",
+      "uri": "shapes/shape020.ply"
+    },
+    {
+      "name": "shape021",
+      "uri": "shapes/shape021.ply"
+    },
+    {
+      "name": "shape022",
+      "uri": "shapes/shape022.ply"
+    },
+    {
+      "name": "shape023",
+      "uri": "shapes/shape023.ply"
+    },
+    {
+      "name": "shape024",
+      "uri": "shapes/shape024.ply"
+    },
+    {
+      "name": "shape025",
+      "uri": "shapes/shape025.ply"
+    },
+    {
+      "name": "shape026",
+      "uri": "shapes/shape026.ply"
+    },
+    {
+      "name": "shape027",
+      "uri": "shapes/shape027.ply"
+    },
+    {
+      "name": "shape028",
+      "uri": "shapes/shape028.ply"
+    },
+    {
+      "name": "shape029",
+      "uri": "shapes/shape029.ply"
+    },
+    {
+      "name": "shape030",
+      "uri": "shapes/shape030.ply"
+    },
+    {
+      "name": "shape031",
+      "uri": "shapes/shape031.ply"
+    },
+    {
+      "name": "shape032",
+      "uri": "shapes/shape032.ply"
+    },
+    {
+      "name": "shape033",
+      "uri": "shapes/shape033.ply"
+    },
+    {
+      "name": "shape034",
+      "uri": "shapes/shape034.ply"
+    },
+    {
+      "name": "shape035",
+      "uri": "shapes/shape035.ply"
+    },
+    {
+      "name": "shape036",
+      "uri": "shapes/shape036.ply"
+    },
+    {
+      "name": "shape037",
+      "uri": "shapes/shape037.ply"
+    },
+    {
+      "name": "shape038",
+      "uri": "shapes/shape038.ply"
+    },
+    {
+      "name": "shape039",
+      "uri": "shapes/shape039.ply"
+    },
+    {
+      "name": "shape040",
+      "uri": "shapes/shape040.ply"
+    },
+    {
+      "name": "shape041",
+      "uri": "shapes/shape041.ply"
+    },
+    {
+      "name": "shape042",
+      "uri": "shapes/shape042.ply"
+    },
+    {
+      "name": "shape043",
+      "uri": "shapes/shape043.ply"
+    },
+    {
+      "name": "shape044",
+      "uri": "shapes/shape044.ply"
+    },
+    {
+      "name": "shape045",
+      "uri": "shapes/shape045.ply"
+    },
+    {
+      "name": "shape046",
+      "uri": "shapes/shape046.ply"
+    },
+    {
+      "name": "shape047",
+      "uri": "shapes/shape047.ply"
+    },
+    {
+      "name": "shape048",
+      "uri": "shapes/shape048.ply"
+    },
+    {
+      "name": "shape049",
+      "uri": "shapes/shape049.ply"
+    },
+    {
+      "name": "shape050",
+      "uri": "shapes/shape050.ply"
+    },
+    {
+      "name": "shape051",
+      "uri": "shapes/shape051.ply"
+    },
+    {
+      "name": "shape052",
+      "uri": "shapes/shape052.ply"
+    },
+    {
+      "name": "shape053",
+      "uri": "shapes/shape053.ply"
+    },
+    {
+      "name": "shape054",
+      "uri": "shapes/shape054.ply"
+    },
+    {
+      "name": "shape055",
+      "uri": "shapes/shape055.ply"
+    },
+    {
+      "name": "shape056",
+      "uri": "shapes/shape056.ply"
+    },
+    {
+      "name": "shape057",
+      "uri": "shapes/shape057.ply"
+    },
+    {
+      "name": "shape058",
+      "uri": "shapes/shape058.ply"
+    },
+    {
+      "name": "shape059",
+      "uri": "shapes/shape059.ply"
+    },
+    {
+      "name": "shape060",
+      "uri": "shapes/shape060.ply"
+    },
+    {
+      "name": "shape061",
+      "uri": "shapes/shape061.ply"
+    },
+    {
+      "name": "shape062",
+      "uri": "shapes/shape062.ply"
+    },
+    {
+      "name": "shape063",
+      "uri": "shapes/shape063.ply"
+    },
+    {
+      "name": "shape064",
+      "uri": "shapes/shape064.ply"
+    },
+    {
+      "name": "shape065",
+      "uri": "shapes/shape065.ply"
+    },
+    {
+      "name": "shape066",
+      "uri": "shapes/shape066.ply"
+    },
+    {
+      "name": "shape067",
+      "uri": "shapes/shape067.ply"
+    },
+    {
+      "name": "shape068",
+      "uri": "shapes/shape068.ply"
+    },
+    {
+      "name": "shape069",
+      "uri": "shapes/shape069.ply"
+    },
+    {
+      "name": "shape070",
+      "uri": "shapes/shape070.ply"
+    },
+    {
+      "name": "shape071",
+      "uri": "shapes/shape071.ply"
+    },
+    {
+      "name": "shape072",
+      "uri": "shapes/shape072.ply"
+    },
+    {
+      "name": "shape073",
+      "uri": "shapes/shape073.ply"
+    },
+    {
+      "name": "shape074",
+      "uri": "shapes/shape074.ply"
+    },
+    {
+      "name": "shape075",
+      "uri": "shapes/shape075.ply"
+    },
+    {
+      "name": "shape076",
+      "uri": "shapes/shape076.ply"
+    },
+    {
+      "name": "shape077",
+      "uri": "shapes/shape077.ply"
+    },
+    {
+      "name": "shape078",
+      "uri": "shapes/shape078.ply"
+    },
+    {
+      "name": "shape079",
+      "uri": "shapes/shape079.ply"
+    },
+    {
+      "name": "shape080",
+      "uri": "shapes/shape080.ply"
+    },
+    {
+      "name": "shape081",
+      "uri": "shapes/shape081.ply"
+    },
+    {
+      "name": "shape082",
+      "uri": "shapes/shape082.ply"
+    },
+    {
+      "name": "shape083",
+      "uri": "shapes/shape083.ply"
+    },
+    {
+      "name": "shape084",
+      "uri": "shapes/shape084.ply"
+    },
+    {
+      "name": "shape085",
+      "uri": "shapes/shape085.ply"
+    },
+    {
+      "name": "shape086",
+      "uri": "shapes/shape086.ply"
+    },
+    {
+      "name": "shape087",
+      "uri": "shapes/shape087.ply"
+    },
+    {
+      "name": "shape088",
+      "uri": "shapes/shape088.ply"
+    },
+    {
+      "name": "shape089",
+      "uri": "shapes/shape089.ply"
+    },
+    {
+      "name": "shape090",
+      "uri": "shapes/shape090.ply"
+    },
+    {
+      "name": "shape091",
+      "uri": "shapes/shape091.ply"
+    },
+    {
+      "name": "shape092",
+      "uri": "shapes/shape092.ply"
+    },
+    {
+      "name": "shape093",
+      "uri": "shapes/shape093.ply"
+    },
+    {
+      "name": "shape094",
+      "uri": "shapes/shape094.ply"
+    },
+    {
+      "name": "shape095",
+      "uri": "shapes/shape095.ply"
+    },
+    {
+      "name": "shape096",
+      "uri": "shapes/shape096.ply"
+    },
+    {
+      "name": "shape097",
+      "uri": "shapes/shape097.ply"
+    },
+    {
+      "name": "shape098",
+      "uri": "shapes/shape098.ply"
+    },
+    {
+      "name": "shape099",
+      "uri": "shapes/shape099.ply"
+    },
+    {
+      "name": "shape100",
+      "uri": "shapes/shape100.ply"
+    },
+    {
+      "name": "shape101",
+      "uri": "shapes/shape101.ply"
+    },
+    {
+      "name": "shape102",
+      "uri": "shapes/shape102.ply"
+    },
+    {
+      "name": "shape103",
+      "uri": "shapes/shape103.ply"
+    },
+    {
+      "name": "shape104",
+      "uri": "shapes/shape104.ply"
+    },
+    {
+      "name": "shape105",
+      "uri": "shapes/shape105.ply"
+    },
+    {
+      "name": "shape106",
+      "uri": "shapes/shape106.ply"
+    },
+    {
+      "name": "shape107",
+      "uri": "shapes/shape107.ply"
+    },
+    {
+      "name": "shape108",
+      "uri": "shapes/shape108.ply"
+    },
+    {
+      "name": "shape109",
+      "uri": "shapes/shape109.ply"
+    },
+    {
+      "name": "shape110",
+      "uri": "shapes/shape110.ply"
+    },
+    {
+      "name": "shape111",
+      "uri": "shapes/shape111.ply"
+    },
+    {
+      "name": "shape112",
+      "uri": "shapes/shape112.ply"
+    },
+    {
+      "name": "shape113",
+      "uri": "shapes/shape113.ply"
+    },
+    {
+      "name": "shape114",
+      "uri": "shapes/shape114.ply"
+    },
+    {
+      "name": "shape115",
+      "uri": "shapes/shape115.ply"
+    },
+    {
+      "name": "shape116",
+      "uri": "shapes/shape116.ply"
+    },
+    {
+      "name": "shape117",
+      "uri": "shapes/shape117.ply"
+    },
+    {
+      "name": "shape118",
+      "uri": "shapes/shape118.ply"
+    },
+    {
+      "name": "shape119",
+      "uri": "shapes/shape119.ply"
+    },
+    {
+      "name": "shape120",
+      "uri": "shapes/shape120.ply"
+    },
+    {
+      "name": "shape121",
+      "uri": "shapes/shape121.ply"
+    },
+    {
+      "name": "shape122",
+      "uri": "shapes/shape122.ply"
+    },
+    {
+      "name": "shape123",
+      "uri": "shapes/shape123.ply"
+    },
+    {
+      "name": "shape124",
+      "uri": "shapes/shape124.ply"
+    },
+    {
+      "name": "shape125",
+      "uri": "shapes/shape125.ply"
+    },
+    {
+      "name": "shape126",
+      "uri": "shapes/shape126.ply"
+    },
+    {
+      "name": "shape127",
+      "uri": "shapes/shape127.ply"
+    },
+    {
+      "name": "shape128",
+      "uri": "shapes/shape128.ply"
+    },
+    {
+      "name": "shape129",
+      "uri": "shapes/shape129.ply"
+    },
+    {
+      "name": "shape130",
+      "uri": "shapes/shape130.ply"
+    },
+    {
+      "name": "shape131",
+      "uri": "shapes/shape131.ply"
+    },
+    {
+      "name": "shape132",
+      "uri": "shapes/shape132.ply"
+    },
+    {
+      "name": "shape133",
+      "uri": "shapes/shape133.ply"
+    },
+    {
+      "name": "shape134",
+      "uri": "shapes/shape134.ply"
+    },
+    {
+      "name": "shape135",
+      "uri": "shapes/shape135.ply"
+    },
+    {
+      "name": "shape136",
+      "uri": "shapes/shape136.ply"
+    },
+    {
+      "name": "shape137",
+      "uri": "shapes/shape137.ply"
+    },
+    {
+      "name": "shape138",
+      "uri": "shapes/shape138.ply"
+    },
+    {
+      "name": "shape139",
+      "uri": "shapes/shape139.ply"
+    },
+    {
+      "name": "shape140",
+      "uri": "shapes/shape140.ply"
+    },
+    {
+      "name": "shape141",
+      "uri": "shapes/shape141.ply"
+    },
+    {
+      "name": "shape142",
+      "uri": "shapes/shape142.ply"
+    },
+    {
+      "name": "shape143",
+      "uri": "shapes/shape143.ply"
+    },
+    {
+      "name": "shape144",
+      "uri": "shapes/shape144.ply"
+    },
+    {
+      "name": "shape145",
+      "uri": "shapes/shape145.ply"
+    },
+    {
+      "name": "shape146",
+      "uri": "shapes/shape146.ply"
+    },
+    {
+      "name": "shape147",
+      "uri": "shapes/shape147.ply"
+    },
+    {
+      "name": "shape148",
+      "uri": "shapes/shape148.ply"
+    },
+    {
+      "name": "shape149",
+      "uri": "shapes/shape149.ply"
+    },
+    {
+      "name": "shape150",
+      "uri": "shapes/shape150.ply"
+    },
+    {
+      "name": "shape151",
+      "uri": "shapes/shape151.ply"
+    },
+    {
+      "name": "shape152",
+      "uri": "shapes/shape152.ply"
+    },
+    {
+      "name": "shape153",
+      "uri": "shapes/shape153.ply"
+    },
+    {
+      "name": "shape154",
+      "uri": "shapes/shape154.ply"
+    },
+    {
+      "name": "shape155",
+      "uri": "shapes/shape155.ply"
+    },
+    {
+      "name": "shape156",
+      "uri": "shapes/shape156.ply"
+    },
+    {
+      "name": "shape157",
+      "uri": "shapes/shape157.ply"
+    },
+    {
+      "name": "shape158",
+      "uri": "shapes/shape158.ply"
+    },
+    {
+      "name": "shape159",
+      "uri": "shapes/shape159.ply"
+    },
+    {
+      "name": "shape160",
+      "uri": "shapes/shape160.ply"
+    },
+    {
+      "name": "shape161",
+      "uri": "shapes/shape161.ply"
+    },
+    {
+      "name": "shape162",
+      "uri": "shapes/shape162.ply"
+    },
+    {
+      "name": "shape163",
+      "uri": "shapes/shape163.ply"
+    },
+    {
+      "name": "shape164",
+      "uri": "shapes/shape164.ply"
+    },
+    {
+      "name": "shape165",
+      "uri": "shapes/shape165.ply"
+    },
+    {
+      "name": "shape166",
+      "uri": "shapes/shape166.ply"
+    },
+    {
+      "name": "shape167",
+      "uri": "shapes/shape167.ply"
+    },
+    {
+      "name": "shape168",
+      "uri": "shapes/shape168.ply"
+    },
+    {
+      "name": "shape169",
+      "uri": "shapes/shape169.ply"
+    },
+    {
+      "name": "shape170",
+      "uri": "shapes/shape170.ply"
+    },
+    {
+      "name": "shape171",
+      "uri": "shapes/shape171.ply"
+    },
+    {
+      "name": "shape172",
+      "uri": "shapes/shape172.ply"
+    },
+    {
+      "name": "shape173",
+      "uri": "shapes/shape173.ply"
+    },
+    {
+      "name": "shape174",
+      "uri": "shapes/shape174.ply"
+    },
+    {
+      "name": "shape175",
+      "uri": "shapes/shape175.ply"
+    },
+    {
+      "name": "shape176",
+      "uri": "shapes/shape176.ply"
+    },
+    {
+      "name": "shape177",
+      "uri": "shapes/shape177.ply"
+    },
+    {
+      "name": "shape178",
+      "uri": "shapes/shape178.ply"
+    },
+    {
+      "name": "shape179",
+      "uri": "shapes/shape179.ply"
+    },
+    {
+      "name": "shape180",
+      "uri": "shapes/shape180.ply"
+    },
+    {
+      "name": "shape181",
+      "uri": "shapes/shape181.ply"
+    },
+    {
+      "name": "shape182",
+      "uri": "shapes/shape182.ply"
+    },
+    {
+      "name": "shape183",
+      "uri": "shapes/shape183.ply"
+    },
+    {
+      "name": "shape184",
+      "uri": "shapes/shape184.ply"
+    },
+    {
+      "name": "shape185",
+      "uri": "shapes/shape185.ply"
+    },
+    {
+      "name": "shape186",
+      "uri": "shapes/shape186.ply"
+    },
+    {
+      "name": "shape187",
+      "uri": "shapes/shape187.ply"
+    },
+    {
+      "name": "shape188",
+      "uri": "shapes/shape188.ply"
+    },
+    {
+      "name": "shape189",
+      "uri": "shapes/shape189.ply"
+    },
+    {
+      "name": "shape190",
+      "uri": "shapes/shape190.ply"
+    },
+    {
+      "name": "shape191",
+      "uri": "shapes/shape191.ply"
+    },
+    {
+      "name": "shape192",
+      "uri": "shapes/shape192.ply"
+    },
+    {
+      "name": "shape193",
+      "uri": "shapes/shape193.ply"
+    },
+    {
+      "name": "shape194",
+      "uri": "shapes/shape194.ply"
+    },
+    {
+      "name": "shape195",
+      "uri": "shapes/shape195.ply"
+    },
+    {
+      "name": "shape196",
+      "uri": "shapes/shape196.ply"
+    },
+    {
+      "name": "shape197",
+      "uri": "shapes/shape197.ply"
+    },
+    {
+      "name": "shape198",
+      "uri": "shapes/shape198.ply"
+    },
+    {
+      "name": "shape199",
+      "uri": "shapes/shape199.ply"
+    },
+    {
+      "name": "shape200",
+      "uri": "shapes/shape200.ply"
+    },
+    {
+      "name": "shape201",
+      "uri": "shapes/shape201.ply"
+    },
+    {
+      "name": "shape202",
+      "uri": "shapes/shape202.ply"
+    },
+    {
+      "name": "shape203",
+      "uri": "shapes/shape203.ply"
+    },
+    {
+      "name": "shape204",
+      "uri": "shapes/shape204.ply"
+    },
+    {
+      "name": "shape205",
+      "uri": "shapes/shape205.ply"
+    },
+    {
+      "name": "shape206",
+      "uri": "shapes/shape206.ply"
+    },
+    {
+      "name": "shape207",
+      "uri": "shapes/shape207.ply"
+    },
+    {
+      "name": "shape208",
+      "uri": "shapes/shape208.ply"
+    },
+    {
+      "name": "shape209",
+      "uri": "shapes/shape209.ply"
+    },
+    {
+      "name": "shape210",
+      "uri": "shapes/shape210.ply"
+    },
+    {
+      "name": "shape211",
+      "uri": "shapes/shape211.ply"
+    },
+    {
+      "name": "shape212",
+      "uri": "shapes/shape212.ply"
+    },
+    {
+      "name": "shape213",
+      "uri": "shapes/shape213.ply"
+    },
+    {
+      "name": "shape214",
+      "uri": "shapes/shape214.ply"
+    },
+    {
+      "name": "shape215",
+      "uri": "shapes/shape215.ply"
+    },
+    {
+      "name": "shape216",
+      "uri": "shapes/shape216.ply"
+    },
+    {
+      "name": "shape217",
+      "uri": "shapes/shape217.ply"
+    },
+    {
+      "name": "shape218",
+      "uri": "shapes/shape218.ply"
+    },
+    {
+      "name": "shape219",
+      "uri": "shapes/shape219.ply"
+    },
+    {
+      "name": "shape220",
+      "uri": "shapes/shape220.ply"
+    },
+    {
+      "name": "shape221",
+      "uri": "shapes/shape221.ply"
+    },
+    {
+      "name": "shape222",
+      "uri": "shapes/shape222.ply"
+    },
+    {
+      "name": "shape223",
+      "uri": "shapes/shape223.ply"
+    },
+    {
+      "name": "shape224",
+      "uri": "shapes/shape224.ply"
+    },
+    {
+      "name": "shape225",
+      "uri": "shapes/shape225.ply"
+    },
+    {
+      "name": "shape226",
+      "uri": "shapes/shape226.ply"
+    },
+    {
+      "name": "shape227",
+      "uri": "shapes/shape227.ply"
+    },
+    {
+      "name": "shape228",
+      "uri": "shapes/shape228.ply"
+    },
+    {
+      "name": "shape229",
+      "uri": "shapes/shape229.ply"
+    },
+    {
+      "name": "shape230",
+      "uri": "shapes/shape230.ply"
+    },
+    {
+      "name": "shape231",
+      "uri": "shapes/shape231.ply"
+    },
+    {
+      "name": "shape232",
+      "uri": "shapes/shape232.ply"
+    },
+    {
+      "name": "shape233",
+      "uri": "shapes/shape233.ply"
+    },
+    {
+      "name": "shape234",
+      "uri": "shapes/shape234.ply"
+    },
+    {
+      "name": "shape235",
+      "uri": "shapes/shape235.ply"
+    },
+    {
+      "name": "shape236",
+      "uri": "shapes/shape236.ply"
+    },
+    {
+      "name": "shape237",
+      "uri": "shapes/shape237.ply"
+    },
+    {
+      "name": "shape238",
+      "uri": "shapes/shape238.ply"
+    },
+    {
+      "name": "shape239",
+      "uri": "shapes/shape239.ply"
+    },
+    {
+      "name": "shape240",
+      "uri": "shapes/shape240.ply"
+    },
+    {
+      "name": "shape241",
+      "uri": "shapes/shape241.ply"
+    },
+    {
+      "name": "shape242",
+      "uri": "shapes/shape242.ply"
+    },
+    {
+      "name": "shape243",
+      "uri": "shapes/shape243.ply"
+    },
+    {
+      "name": "shape244",
+      "uri": "shapes/shape244.ply"
+    },
+    {
+      "name": "shape245",
+      "uri": "shapes/shape245.ply"
+    },
+    {
+      "name": "shape246",
+      "uri": "shapes/shape246.ply"
+    },
+    {
+      "name": "shape247",
+      "uri": "shapes/shape247.ply"
+    },
+    {
+      "name": "shape248",
+      "uri": "shapes/shape248.ply"
+    },
+    {
+      "name": "shape249",
+      "uri": "shapes/shape249.ply"
+    },
+    {
+      "name": "shape250",
+      "uri": "shapes/shape250.ply"
+    },
+    {
+      "name": "shape251",
+      "uri": "shapes/shape251.ply"
+    },
+    {
+      "name": "shape252",
+      "uri": "shapes/shape252.ply"
+    },
+    {
+      "name": "shape253",
+      "uri": "shapes/shape253.ply"
+    },
+    {
+      "name": "shape254",
+      "uri": "shapes/shape254.ply"
+    },
+    {
+      "name": "shape255",
+      "uri": "shapes/shape255.ply"
+    },
+    {
+      "name": "shape256",
+      "uri": "shapes/shape256.ply"
+    },
+    {
+      "name": "shape257",
+      "uri": "shapes/shape257.ply"
+    },
+    {
+      "name": "shape258",
+      "uri": "shapes/shape258.ply"
+    },
+    {
+      "name": "shape259",
+      "uri": "shapes/shape259.ply"
+    },
+    {
+      "name": "shape260",
+      "uri": "shapes/shape260.ply"
+    },
+    {
+      "name": "shape261",
+      "uri": "shapes/shape261.ply"
+    },
+    {
+      "name": "shape262",
+      "uri": "shapes/shape262.ply"
+    },
+    {
+      "name": "shape263",
+      "uri": "shapes/shape263.ply"
+    },
+    {
+      "name": "shape264",
+      "uri": "shapes/shape264.ply"
+    },
+    {
+      "name": "shape265",
+      "uri": "shapes/shape265.ply"
+    },
+    {
+      "name": "shape266",
+      "uri": "shapes/shape266.ply"
+    },
+    {
+      "name": "shape267",
+      "uri": "shapes/shape267.ply"
+    },
+    {
+      "name": "shape268",
+      "uri": "shapes/shape268.ply"
+    },
+    {
+      "name": "shape269",
+      "uri": "shapes/shape269.ply"
+    },
+    {
+      "name": "shape270",
+      "uri": "shapes/shape270.ply"
+    },
+    {
+      "name": "shape271",
+      "uri": "shapes/shape271.ply"
+    },
+    {
+      "name": "shape272",
+      "uri": "shapes/shape272.ply"
+    },
+    {
+      "name": "shape273",
+      "uri": "shapes/shape273.ply"
+    },
+    {
+      "name": "shape274",
+      "uri": "shapes/shape274.ply"
+    },
+    {
+      "name": "shape275",
+      "uri": "shapes/shape275.ply"
+    },
+    {
+      "name": "shape276",
+      "uri": "shapes/shape276.ply"
+    },
+    {
+      "name": "shape277",
+      "uri": "shapes/shape277.ply"
+    },
+    {
+      "name": "shape278",
+      "uri": "shapes/shape278.ply"
+    },
+    {
+      "name": "shape279",
+      "uri": "shapes/shape279.ply"
+    },
+    {
+      "name": "shape280",
+      "uri": "shapes/shape280.ply"
+    },
+    {
+      "name": "shape281",
+      "uri": "shapes/shape281.ply"
+    },
+    {
+      "name": "shape282",
+      "uri": "shapes/shape282.ply"
+    },
+    {
+      "name": "shape283",
+      "uri": "shapes/shape283.ply"
+    },
+    {
+      "name": "shape284",
+      "uri": "shapes/shape284.ply"
+    },
+    {
+      "name": "shape285",
+      "uri": "shapes/shape285.ply"
+    },
+    {
+      "name": "shape286",
+      "uri": "shapes/shape286.ply"
+    },
+    {
+      "name": "shape287",
+      "uri": "shapes/shape287.ply"
+    },
+    {
+      "name": "shape288",
+      "uri": "shapes/shape288.ply"
+    },
+    {
+      "name": "shape289",
+      "uri": "shapes/shape289.ply"
+    },
+    {
+      "name": "shape290",
+      "uri": "shapes/shape290.ply"
+    },
+    {
+      "name": "shape291",
+      "uri": "shapes/shape291.ply"
+    },
+    {
+      "name": "shape292",
+      "uri": "shapes/shape292.ply"
+    },
+    {
+      "name": "shape293",
+      "uri": "shapes/shape293.ply"
+    },
+    {
+      "name": "shape294",
+      "uri": "shapes/shape294.ply"
+    },
+    {
+      "name": "shape295",
+      "uri": "shapes/shape295.ply"
+    },
+    {
+      "name": "shape296",
+      "uri": "shapes/shape296.ply"
+    },
+    {
+      "name": "shape297",
+      "uri": "shapes/shape297.ply"
+    },
+    {
+      "name": "shape298",
+      "uri": "shapes/shape298.ply"
+    },
+    {
+      "name": "shape299",
+      "uri": "shapes/shape299.ply"
+    }
+  ],
+  "instances": [
+    {
+      "name": "instance001",
+      "material": 0,
+      "shape": 0
+    },
+    {
+      "name": "instance002",
+      "material": 1,
+      "shape": 1
+    },
+    {
+      "name": "instance003",
+      "material": 2,
+      "shape": 2
+    },
+    {
+      "name": "instance004",
+      "material": 3,
+      "shape": 3
+    },
+    {
+      "name": "instance005",
+      "material": 3,
+      "shape": 4
+    },
+    {
+      "name": "instance006",
+      "material": 3,
+      "shape": 5
+    },
+    {
+      "name": "instance007",
+      "material": 4,
+      "shape": 6
+    },
+    {
+      "name": "instance008",
+      "material": 5,
+      "shape": 7
+    },
+    {
+      "name": "instance009",
+      "material": 5,
+      "shape": 8
+    },
+    {
+      "name": "instance010",
+      "material": 5,
+      "shape": 9
+    },
+    {
+      "name": "instance011",
+      "material": 5,
+      "shape": 10
+    },
+    {
+      "name": "instance012",
+      "material": 6,
+      "shape": 11
+    },
+    {
+      "name": "instance013",
+      "material": 0,
+      "shape": 12
+    },
+    {
+      "name": "instance014",
+      "material": 7,
+      "shape": 13
+    },
+    {
+      "name": "instance015",
+      "material": 8,
+      "shape": 14
+    },
+    {
+      "name": "instance016",
+      "material": 9,
+      "shape": 15
+    },
+    {
+      "name": "instance017",
+      "material": 9,
+      "shape": 16
+    },
+    {
+      "name": "instance018",
+      "material": 9,
+      "shape": 17
+    },
+    {
+      "name": "instance019",
+      "material": 9,
+      "shape": 18
+    },
+    {
+      "name": "instance020",
+      "material": 9,
+      "shape": 19
+    },
+    {
+      "name": "instance021",
+      "material": 9,
+      "shape": 20
+    },
+    {
+      "name": "instance022",
+      "material": 9,
+      "shape": 21
+    },
+    {
+      "name": "instance023",
+      "material": 9,
+      "shape": 22
+    },
+    {
+      "name": "instance024",
+      "material": 9,
+      "shape": 23
+    },
+    {
+      "name": "instance025",
+      "material": 9,
+      "shape": 24
+    },
+    {
+      "name": "instance026",
+      "material": 9,
+      "shape": 25
+    },
+    {
+      "name": "instance027",
+      "material": 9,
+      "shape": 26
+    },
+    {
+      "name": "instance028",
+      "material": 9,
+      "shape": 27
+    },
+    {
+      "name": "instance029",
+      "material": 9,
+      "shape": 28
+    },
+    {
+      "name": "instance030",
+      "material": 9,
+      "shape": 29
+    },
+    {
+      "name": "instance031",
+      "material": 9,
+      "shape": 30
+    },
+    {
+      "name": "instance032",
+      "material": 9,
+      "shape": 31
+    },
+    {
+      "name": "instance033",
+      "material": 9,
+      "shape": 32
+    },
+    {
+      "name": "instance034",
+      "material": 9,
+      "shape": 33
+    },
+    {
+      "name": "instance035",
+      "material": 9,
+      "shape": 34
+    },
+    {
+      "name": "instance036",
+      "material": 9,
+      "shape": 35
+    },
+    {
+      "name": "instance037",
+      "material": 9,
+      "shape": 36
+    },
+    {
+      "name": "instance038",
+      "material": 9,
+      "shape": 37
+    },
+    {
+      "name": "instance039",
+      "material": 9,
+      "shape": 38
+    },
+    {
+      "name": "instance040",
+      "material": 9,
+      "shape": 39
+    },
+    {
+      "name": "instance041",
+      "material": 9,
+      "shape": 40
+    },
+    {
+      "name": "instance042",
+      "material": 9,
+      "shape": 41
+    },
+    {
+      "name": "instance043",
+      "material": 9,
+      "shape": 42
+    },
+    {
+      "name": "instance044",
+      "material": 9,
+      "shape": 43
+    },
+    {
+      "name": "instance045",
+      "material": 9,
+      "shape": 44
+    },
+    {
+      "name": "instance046",
+      "material": 9,
+      "shape": 45
+    },
+    {
+      "name": "instance047",
+      "material": 9,
+      "shape": 46
+    },
+    {
+      "name": "instance048",
+      "material": 9,
+      "shape": 47
+    },
+    {
+      "name": "instance049",
+      "material": 9,
+      "shape": 48
+    },
+    {
+      "name": "instance050",
+      "material": 9,
+      "shape": 49
+    },
+    {
+      "name": "instance051",
+      "material": 9,
+      "shape": 50
+    },
+    {
+      "name": "instance052",
+      "material": 9,
+      "shape": 51
+    },
+    {
+      "name": "instance053",
+      "material": 9,
+      "shape": 52
+    },
+    {
+      "name": "instance054",
+      "material": 9,
+      "shape": 53
+    },
+    {
+      "name": "instance055",
+      "material": 9,
+      "shape": 54
+    },
+    {
+      "name": "instance056",
+      "material": 9,
+      "shape": 55
+    },
+    {
+      "name": "instance057",
+      "material": 9,
+      "shape": 56
+    },
+    {
+      "name": "instance058",
+      "material": 9,
+      "shape": 57
+    },
+    {
+      "name": "instance059",
+      "material": 9,
+      "shape": 58
+    },
+    {
+      "name": "instance060",
+      "material": 9,
+      "shape": 59
+    },
+    {
+      "name": "instance061",
+      "material": 9,
+      "shape": 60
+    },
+    {
+      "name": "instance062",
+      "material": 9,
+      "shape": 61
+    },
+    {
+      "name": "instance063",
+      "material": 9,
+      "shape": 62
+    },
+    {
+      "name": "instance064",
+      "material": 10,
+      "shape": 63
+    },
+    {
+      "name": "instance065",
+      "material": 11,
+      "shape": 64
+    },
+    {
+      "name": "instance066",
+      "material": 2,
+      "shape": 65
+    },
+    {
+      "name": "instance067",
+      "material": 12,
+      "shape": 66
+    },
+    {
+      "name": "instance068",
+      "material": 13,
+      "shape": 67
+    },
+    {
+      "name": "instance069",
+      "material": 14,
+      "shape": 68
+    },
+    {
+      "name": "instance070",
+      "material": 13,
+      "shape": 69
+    },
+    {
+      "name": "instance071",
+      "material": 13,
+      "shape": 70
+    },
+    {
+      "name": "instance072",
+      "material": 13,
+      "shape": 71
+    },
+    {
+      "name": "instance073",
+      "material": 14,
+      "shape": 72
+    },
+    {
+      "name": "instance074",
+      "material": 13,
+      "shape": 73
+    },
+    {
+      "name": "instance075",
+      "material": 13,
+      "shape": 74
+    },
+    {
+      "name": "instance076",
+      "material": 13,
+      "shape": 75
+    },
+    {
+      "name": "instance077",
+      "material": 13,
+      "shape": 76
+    },
+    {
+      "name": "instance078",
+      "material": 14,
+      "shape": 77
+    },
+    {
+      "name": "instance079",
+      "material": 14,
+      "shape": 78
+    },
+    {
+      "name": "instance080",
+      "material": 13,
+      "shape": 79
+    },
+    {
+      "name": "instance081",
+      "material": 15,
+      "shape": 80
+    },
+    {
+      "name": "instance082",
+      "material": 14,
+      "shape": 81
+    },
+    {
+      "name": "instance083",
+      "material": 16,
+      "shape": 82
+    },
+    {
+      "name": "instance084",
+      "material": 17,
+      "shape": 83
+    },
+    {
+      "name": "instance085",
+      "material": 17,
+      "shape": 84
+    },
+    {
+      "name": "instance086",
+      "material": 16,
+      "shape": 85
+    },
+    {
+      "name": "instance087",
+      "material": 17,
+      "shape": 86
+    },
+    {
+      "name": "instance088",
+      "material": 16,
+      "shape": 87
+    },
+    {
+      "name": "instance089",
+      "material": 18,
+      "shape": 88
+    },
+    {
+      "name": "instance090",
+      "material": 19,
+      "shape": 89
+    },
+    {
+      "name": "instance091",
+      "material": 20,
+      "shape": 90
+    },
+    {
+      "name": "instance092",
+      "material": 7,
+      "shape": 91
+    },
+    {
+      "name": "instance093",
+      "material": 19,
+      "shape": 92
+    },
+    {
+      "name": "instance094",
+      "material": 21,
+      "shape": 93
+    },
+    {
+      "name": "instance095",
+      "material": 22,
+      "shape": 94
+    },
+    {
+      "name": "instance096",
+      "material": 23,
+      "shape": 95
+    },
+    {
+      "name": "instance097",
+      "material": 24,
+      "shape": 96
+    },
+    {
+      "name": "instance098",
+      "material": 24,
+      "shape": 97
+    },
+    {
+      "name": "instance099",
+      "material": 24,
+      "shape": 98
+    },
+    {
+      "name": "instance100",
+      "material": 24,
+      "shape": 99
+    },
+    {
+      "name": "instance101",
+      "material": 24,
+      "shape": 100
+    },
+    {
+      "name": "instance102",
+      "material": 24,
+      "shape": 101
+    },
+    {
+      "name": "instance103",
+      "material": 24,
+      "shape": 102
+    },
+    {
+      "name": "instance104",
+      "material": 24,
+      "shape": 103
+    },
+    {
+      "name": "instance105",
+      "material": 25,
+      "shape": 104
+    },
+    {
+      "name": "instance106",
+      "material": 25,
+      "shape": 105
+    },
+    {
+      "name": "instance107",
+      "material": 25,
+      "shape": 106
+    },
+    {
+      "name": "instance108",
+      "material": 25,
+      "shape": 107
+    },
+    {
+      "name": "instance109",
+      "material": 9,
+      "shape": 108
+    },
+    {
+      "name": "instance110",
+      "material": 9,
+      "shape": 109
+    },
+    {
+      "name": "instance111",
+      "material": 9,
+      "shape": 110
+    },
+    {
+      "name": "instance112",
+      "material": 9,
+      "shape": 111
+    },
+    {
+      "name": "instance113",
+      "material": 9,
+      "shape": 112
+    },
+    {
+      "name": "instance114",
+      "material": 9,
+      "shape": 113
+    },
+    {
+      "name": "instance115",
+      "material": 9,
+      "shape": 114
+    },
+    {
+      "name": "instance116",
+      "material": 9,
+      "shape": 115
+    },
+    {
+      "name": "instance117",
+      "material": 9,
+      "shape": 116
+    },
+    {
+      "name": "instance118",
+      "material": 9,
+      "shape": 117
+    },
+    {
+      "name": "instance119",
+      "material": 9,
+      "shape": 118
+    },
+    {
+      "name": "instance120",
+      "material": 9,
+      "shape": 119
+    },
+    {
+      "name": "instance121",
+      "material": 9,
+      "shape": 120
+    },
+    {
+      "name": "instance122",
+      "material": 9,
+      "shape": 121
+    },
+    {
+      "name": "instance123",
+      "material": 9,
+      "shape": 122
+    },
+    {
+      "name": "instance124",
+      "material": 26,
+      "shape": 123
+    },
+    {
+      "name": "instance125",
+      "material": 26,
+      "shape": 124
+    },
+    {
+      "name": "instance126",
+      "material": 27,
+      "shape": 125
+    },
+    {
+      "name": "instance127",
+      "material": 28,
+      "shape": 126
+    },
+    {
+      "name": "instance128",
+      "material": 29,
+      "shape": 127
+    },
+    {
+      "name": "instance129",
+      "material": 30,
+      "shape": 128
+    },
+    {
+      "name": "instance130",
+      "material": 31,
+      "shape": 129
+    },
+    {
+      "name": "instance131",
+      "material": 31,
+      "shape": 130
+    },
+    {
+      "name": "instance132",
+      "material": 24,
+      "shape": 131
+    },
+    {
+      "name": "instance133",
+      "material": 32,
+      "shape": 132
+    },
+    {
+      "name": "instance134",
+      "material": 33,
+      "shape": 133
+    },
+    {
+      "name": "instance135",
+      "material": 34,
+      "shape": 134
+    },
+    {
+      "name": "instance136",
+      "material": 35,
+      "shape": 135
+    },
+    {
+      "name": "instance137",
+      "material": 34,
+      "shape": 136
+    },
+    {
+      "name": "instance138",
+      "material": 36,
+      "shape": 137
+    },
+    {
+      "name": "instance139",
+      "material": 34,
+      "shape": 138
+    },
+    {
+      "name": "instance140",
+      "material": 34,
+      "shape": 139
+    },
+    {
+      "name": "instance141",
+      "material": 37,
+      "shape": 140
+    },
+    {
+      "name": "instance142",
+      "material": 37,
+      "shape": 141
+    },
+    {
+      "name": "instance143",
+      "material": 37,
+      "shape": 142
+    },
+    {
+      "name": "instance144",
+      "material": 37,
+      "shape": 143
+    },
+    {
+      "name": "instance145",
+      "material": 37,
+      "shape": 144
+    },
+    {
+      "name": "instance146",
+      "material": 37,
+      "shape": 145
+    },
+    {
+      "name": "instance147",
+      "material": 37,
+      "shape": 146
+    },
+    {
+      "name": "instance148",
+      "material": 37,
+      "shape": 147
+    },
+    {
+      "name": "instance149",
+      "material": 37,
+      "shape": 148
+    },
+    {
+      "name": "instance150",
+      "material": 37,
+      "shape": 149
+    },
+    {
+      "name": "instance151",
+      "material": 37,
+      "shape": 150
+    },
+    {
+      "name": "instance152",
+      "material": 37,
+      "shape": 151
+    },
+    {
+      "name": "instance153",
+      "material": 23,
+      "shape": 152
+    },
+    {
+      "name": "instance154",
+      "material": 22,
+      "shape": 153
+    },
+    {
+      "name": "instance155",
+      "material": 38,
+      "shape": 154
+    },
+    {
+      "name": "instance156",
+      "material": 38,
+      "shape": 155
+    },
+    {
+      "name": "instance157",
+      "material": 39,
+      "shape": 156
+    },
+    {
+      "name": "instance158",
+      "material": 40,
+      "shape": 157
+    },
+    {
+      "name": "instance159",
+      "material": 41,
+      "shape": 158
+    },
+    {
+      "name": "instance160",
+      "material": 41,
+      "shape": 159
+    },
+    {
+      "name": "instance161",
+      "material": 41,
+      "shape": 160
+    },
+    {
+      "name": "instance162",
+      "material": 41,
+      "shape": 161
+    },
+    {
+      "name": "instance163",
+      "material": 41,
+      "shape": 162
+    },
+    {
+      "name": "instance164",
+      "material": 41,
+      "shape": 163
+    },
+    {
+      "name": "instance165",
+      "material": 41,
+      "shape": 164
+    },
+    {
+      "name": "instance166",
+      "material": 41,
+      "shape": 165
+    },
+    {
+      "name": "instance167",
+      "material": 41,
+      "shape": 166
+    },
+    {
+      "name": "instance168",
+      "material": 41,
+      "shape": 167
+    },
+    {
+      "name": "instance169",
+      "material": 41,
+      "shape": 168
+    },
+    {
+      "name": "instance170",
+      "material": 41,
+      "shape": 169
+    },
+    {
+      "name": "instance171",
+      "material": 41,
+      "shape": 170
+    },
+    {
+      "name": "instance172",
+      "material": 41,
+      "shape": 171
+    },
+    {
+      "name": "instance173",
+      "material": 41,
+      "shape": 172
+    },
+    {
+      "name": "instance174",
+      "material": 41,
+      "shape": 173
+    },
+    {
+      "name": "instance175",
+      "material": 41,
+      "shape": 174
+    },
+    {
+      "name": "instance176",
+      "material": 41,
+      "shape": 175
+    },
+    {
+      "name": "instance177",
+      "material": 42,
+      "shape": 176
+    },
+    {
+      "name": "instance178",
+      "material": 43,
+      "shape": 177
+    },
+    {
+      "name": "instance179",
+      "material": 43,
+      "shape": 178
+    },
+    {
+      "name": "instance180",
+      "material": 43,
+      "shape": 179
+    },
+    {
+      "name": "instance181",
+      "material": 43,
+      "shape": 180
+    },
+    {
+      "name": "instance182",
+      "material": 43,
+      "shape": 181
+    },
+    {
+      "name": "instance183",
+      "material": 44,
+      "shape": 182
+    },
+    {
+      "name": "instance184",
+      "material": 45,
+      "shape": 183
+    },
+    {
+      "name": "instance185",
+      "material": 43,
+      "shape": 184
+    },
+    {
+      "name": "instance186",
+      "material": 8,
+      "shape": 185
+    },
+    {
+      "name": "instance187",
+      "material": 46,
+      "shape": 186
+    },
+    {
+      "name": "instance188",
+      "material": 47,
+      "shape": 187
+    },
+    {
+      "name": "instance189",
+      "material": 48,
+      "shape": 188
+    },
+    {
+      "name": "instance190",
+      "material": 49,
+      "shape": 189
+    },
+    {
+      "name": "instance191",
+      "material": 48,
+      "shape": 190
+    },
+    {
+      "name": "instance192",
+      "material": 50,
+      "shape": 191
+    },
+    {
+      "name": "instance193",
+      "material": 51,
+      "shape": 192
+    },
+    {
+      "name": "instance194",
+      "material": 52,
+      "shape": 193
+    },
+    {
+      "name": "instance195",
+      "material": 53,
+      "shape": 194
+    },
+    {
+      "name": "instance196",
+      "material": 0,
+      "shape": 195
+    },
+    {
+      "name": "instance197",
+      "material": 54,
+      "shape": 196
+    },
+    {
+      "name": "instance198",
+      "material": 55,
+      "shape": 197
+    },
+    {
+      "name": "instance199",
+      "material": 11,
+      "shape": 198
+    },
+    {
+      "name": "instance200",
+      "material": 12,
+      "shape": 199
+    },
+    {
+      "name": "instance201",
+      "material": 56,
+      "shape": 200
+    },
+    {
+      "name": "instance202",
+      "material": 57,
+      "shape": 201
+    },
+    {
+      "name": "instance203",
+      "material": 58,
+      "shape": 202
+    },
+    {
+      "name": "instance204",
+      "material": 59,
+      "shape": 203
+    },
+    {
+      "name": "instance205",
+      "material": 60,
+      "shape": 204
+    },
+    {
+      "name": "instance206",
+      "material": 60,
+      "shape": 205
+    },
+    {
+      "name": "instance207",
+      "material": 14,
+      "shape": 206
+    },
+    {
+      "name": "instance208",
+      "material": 13,
+      "shape": 207
+    },
+    {
+      "name": "instance209",
+      "material": 59,
+      "shape": 208
+    },
+    {
+      "name": "instance210",
+      "material": 59,
+      "shape": 209
+    },
+    {
+      "name": "instance211",
+      "material": 59,
+      "shape": 210
+    },
+    {
+      "name": "instance212",
+      "material": 59,
+      "shape": 211
+    },
+    {
+      "name": "instance213",
+      "material": 59,
+      "shape": 212
+    },
+    {
+      "name": "instance214",
+      "material": 59,
+      "shape": 213
+    },
+    {
+      "name": "instance215",
+      "material": 59,
+      "shape": 214
+    },
+    {
+      "name": "instance216",
+      "material": 59,
+      "shape": 215
+    },
+    {
+      "name": "instance217",
+      "material": 59,
+      "shape": 216
+    },
+    {
+      "name": "instance218",
+      "material": 59,
+      "shape": 217
+    },
+    {
+      "name": "instance219",
+      "material": 59,
+      "shape": 218
+    },
+    {
+      "name": "instance220",
+      "material": 61,
+      "shape": 219
+    },
+    {
+      "name": "instance221",
+      "material": 14,
+      "shape": 220
+    },
+    {
+      "name": "instance222",
+      "material": 14,
+      "shape": 221
+    },
+    {
+      "name": "instance223",
+      "material": 14,
+      "shape": 222
+    },
+    {
+      "name": "instance224",
+      "material": 14,
+      "shape": 223
+    },
+    {
+      "name": "instance225",
+      "material": 14,
+      "shape": 224
+    },
+    {
+      "name": "instance226",
+      "material": 14,
+      "shape": 225
+    },
+    {
+      "name": "instance227",
+      "material": 13,
+      "shape": 226
+    },
+    {
+      "name": "instance228",
+      "material": 13,
+      "shape": 227
+    },
+    {
+      "name": "instance229",
+      "material": 13,
+      "shape": 228
+    },
+    {
+      "name": "instance230",
+      "material": 62,
+      "shape": 229
+    },
+    {
+      "name": "instance231",
+      "material": 62,
+      "shape": 230
+    },
+    {
+      "name": "instance232",
+      "material": 13,
+      "shape": 231
+    },
+    {
+      "name": "instance233",
+      "material": 13,
+      "shape": 232
+    },
+    {
+      "name": "instance234",
+      "material": 63,
+      "shape": 233
+    },
+    {
+      "name": "instance235",
+      "material": 64,
+      "shape": 234
+    },
+    {
+      "name": "instance236",
+      "material": 63,
+      "shape": 235
+    },
+    {
+      "name": "instance237",
+      "material": 64,
+      "shape": 236
+    },
+    {
+      "name": "instance238",
+      "material": 63,
+      "shape": 237
+    },
+    {
+      "name": "instance239",
+      "material": 64,
+      "shape": 238
+    },
+    {
+      "name": "instance240",
+      "material": 63,
+      "shape": 239
+    },
+    {
+      "name": "instance241",
+      "material": 64,
+      "shape": 240
+    },
+    {
+      "name": "instance242",
+      "material": 63,
+      "shape": 241
+    },
+    {
+      "name": "instance243",
+      "material": 64,
+      "shape": 242
+    },
+    {
+      "name": "instance244",
+      "material": 63,
+      "shape": 243
+    },
+    {
+      "name": "instance245",
+      "material": 64,
+      "shape": 244
+    },
+    {
+      "name": "instance246",
+      "material": 16,
+      "shape": 245
+    },
+    {
+      "name": "instance247",
+      "material": 17,
+      "shape": 246
+    },
+    {
+      "name": "instance248",
+      "material": 17,
+      "shape": 247
+    },
+    {
+      "name": "instance249",
+      "material": 16,
+      "shape": 248
+    },
+    {
+      "name": "instance250",
+      "material": 16,
+      "shape": 249
+    },
+    {
+      "name": "instance251",
+      "material": 17,
+      "shape": 250
+    },
+    {
+      "name": "instance252",
+      "material": 16,
+      "shape": 251
+    },
+    {
+      "name": "instance253",
+      "material": 65,
+      "shape": 252
+    },
+    {
+      "name": "instance254",
+      "material": 13,
+      "shape": 253
+    },
+    {
+      "name": "instance255",
+      "material": 13,
+      "shape": 254
+    },
+    {
+      "name": "instance256",
+      "material": 2,
+      "shape": 255
+    },
+    {
+      "name": "instance257",
+      "material": 13,
+      "shape": 256
+    },
+    {
+      "name": "instance258",
+      "material": 13,
+      "shape": 257
+    },
+    {
+      "name": "instance259",
+      "material": 13,
+      "shape": 258
+    },
+    {
+      "name": "instance260",
+      "material": 26,
+      "shape": 259
+    },
+    {
+      "name": "instance261",
+      "material": 26,
+      "shape": 260
+    },
+    {
+      "name": "instance262",
+      "material": 13,
+      "shape": 261
+    },
+    {
+      "name": "instance263",
+      "material": 13,
+      "shape": 262
+    },
+    {
+      "name": "instance264",
+      "material": 29,
+      "shape": 263
+    },
+    {
+      "name": "instance265",
+      "material": 29,
+      "shape": 264
+    },
+    {
+      "name": "instance266",
+      "material": 66,
+      "shape": 265
+    },
+    {
+      "name": "instance267",
+      "material": 67,
+      "shape": 266
+    },
+    {
+      "name": "instance268",
+      "material": 68,
+      "shape": 267
+    },
+    {
+      "name": "instance269",
+      "material": 69,
+      "shape": 268
+    },
+    {
+      "name": "instance270",
+      "material": 70,
+      "shape": 269
+    },
+    {
+      "name": "instance271",
+      "material": 66,
+      "shape": 270
+    },
+    {
+      "name": "instance272",
+      "material": 66,
+      "shape": 271
+    },
+    {
+      "name": "instance273",
+      "material": 70,
+      "shape": 272
+    },
+    {
+      "name": "instance274",
+      "material": 71,
+      "shape": 273
+    },
+    {
+      "name": "instance275",
+      "material": 72,
+      "shape": 274
+    },
+    {
+      "name": "instance276",
+      "material": 73,
+      "shape": 275
+    },
+    {
+      "name": "instance277",
+      "material": 73,
+      "shape": 276
+    },
+    {
+      "name": "instance278",
+      "material": 74,
+      "shape": 277
+    },
+    {
+      "name": "instance279",
+      "material": 75,
+      "shape": 278
+    },
+    {
+      "name": "instance280",
+      "material": 76,
+      "shape": 279
+    },
+    {
+      "name": "instance281",
+      "material": 77,
+      "shape": 280
+    },
+    {
+      "name": "instance282",
+      "material": 72,
+      "shape": 281
+    },
+    {
+      "name": "instance283",
+      "material": 72,
+      "shape": 282
+    },
+    {
+      "name": "instance284",
+      "material": 78,
+      "shape": 283
+    },
+    {
+      "name": "instance285",
+      "material": 72,
+      "shape": 284
+    },
+    {
+      "name": "instance286",
+      "material": 79,
+      "shape": 285
+    },
+    {
+      "name": "instance287",
+      "material": 80,
+      "shape": 286
+    },
+    {
+      "name": "instance288",
+      "material": 81,
+      "shape": 287
+    },
+    {
+      "name": "instance289",
+      "material": 82,
+      "shape": 288
+    },
+    {
+      "name": "instance290",
+      "material": 82,
+      "shape": 289
+    },
+    {
+      "name": "instance291",
+      "material": 83,
+      "shape": 290
+    },
+    {
+      "name": "instance292",
+      "material": 84,
+      "shape": 291
+    },
+    {
+      "name": "instance293",
+      "material": 84,
+      "shape": 292
+    },
+    {
+      "name": "instance294",
+      "material": 0,
+      "shape": 293
+    },
+    {
+      "name": "instance295",
+      "material": 85,
+      "shape": 294
+    },
+    {
+      "name": "instance296",
+      "material": 86,
+      "shape": 295
+    },
+    {
+      "name": "instance297",
+      "material": 87,
+      "shape": 296
+    },
+    {
+      "name": "instance298",
+      "material": 88,
+      "shape": 297
+    },
+    {
+      "name": "instance299",
+      "material": 89,
+      "shape": 298
+    }
+  ]
+}
