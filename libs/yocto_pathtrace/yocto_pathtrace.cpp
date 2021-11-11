@@ -178,7 +178,8 @@ static float sample_bsdfcos_pdf(const material_point& material,
     case material_type::transparent:
       return sample_tranparent_pdf(
           material.color, material.ior, material.roughness, normal, outgoing, incoming);
-    default: return 0;
+    default: 
+      return 0;
   }
   return 0;
 }
@@ -203,14 +204,17 @@ static vec3f sample_lights(const scene_data& scene,
     const pathtrace_lights& lights, const vec3f& position, float rl, float rel,
     const vec2f& ruv) {
   // Sample random light
-  unsigned int lid = sample_uniform(lights.lights.size(), rl);
+  unsigned int lid = sample_uniform(static_cast<int>(lights.lights.size()), rl);
   const pathtrace_light& light = lights.lights[lid];
 
   if (light.instance != invalidid) 
   {
     const instance_data& inst = scene.instances[light.instance];
     auto tid = sample_discrete(light.elements_cdf, rel);
-    auto uv  = sample_triangle(ruv);
+    const shape_data& shape = scene.shapes[inst.shape];
+  
+    auto uv = !shape.triangles.empty() ? sample_triangle(ruv) : ruv;
+    
     vec3f local_p = eval_position(scene, inst, tid, uv);
     return normalize(local_p - position);
   } 
@@ -242,15 +246,16 @@ static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
       vec3f np   = position;
       for (unsigned int bounce = 0; bounce < 100; ++bounce) 
       {
-        auto isec = intersect_bvh(bvh, scene, ray3f{np, direction});
+        //auto ray = transform_ray(inverse(scene.instances[l.instance].frame, false), ray3f{np, direction});
+        auto isec = intersect_bvh(bvh, scene, l.instance, ray3f{np, direction});
         if (!isec.hit) break;
-        vec3f lp = eval_position(scene, isec);
-        vec3f ln = eval_element_normal(scene, isec);
+
+        vec3f p = eval_position(scene, isec);
+        vec3f n = eval_position(scene, isec);
 
         float A = l.elements_cdf.back();
-        lpdf += distance_squared(lp, position) /
-                (abs(dot(ln, direction)) * A);
-        np = lp + direction * 1e-3f;
+        lpdf += distance_squared(p, position) / (abs(dot(n, direction)) * A);
+        np =  p + direction * 1e-3f;
       }
       pdf += lpdf;
     } 
@@ -276,7 +281,7 @@ static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
       } 
     }
   }
-  pdf *= sample_uniform_pdf(lights.lights.size());
+  pdf *= sample_uniform_pdf(static_cast<int>(lights.lights.size()));
   return pdf;
 }
 
@@ -335,7 +340,7 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
     if (w == zero3f || !isfinite(w)) break;
 
     // Russian roulette
-    if (bounce > 3) 
+    if (bounce > 4) 
     {
       float rrp = min(1.f, max(w));  // Russian Roulette probability
       if (rand1f(rng) >= rrp) break;
@@ -400,7 +405,7 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
     if (w == zero3f || !isfinite(w)) break;
 
     // Russian roulette
-    if (bounce > 3) {
+    if (bounce > 4) {
       float rrp = min(1.f, max(w));  // Russian Roulette probability
       if (rand1f(rng) >= rrp) break;
       w *= 1.f / rrp;

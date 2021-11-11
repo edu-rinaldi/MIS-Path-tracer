@@ -13,3 +13,4 @@ tests1/
 testsr/
 scripts/sync_yocto.sh
 .vscode
+**/.DS_Store
