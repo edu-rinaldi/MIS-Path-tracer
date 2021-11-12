@@ -336,11 +336,11 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
            sample_delta_pdf(material, normal, outgoing, incoming);
     }
 
-    // check weight
-    if (w == zero3f || !isfinite(w)) break;
+    //// check weight
+    //if (w == zero3f || !isfinite(w)) break;
 
     // Russian roulette
-    if (bounce > 4) 
+    if (bounce > 3) 
     {
       float rrp = min(1.f, max(w));  // Russian Roulette probability
       if (rand1f(rng) >= rrp) break;
@@ -401,11 +401,11 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
       w *= eval_delta(material, normal, outgoing, incoming) / sample_delta_pdf(material, normal, outgoing, incoming);
     }
 
-    // check weight
-    if (w == zero3f || !isfinite(w)) break;
+    //// check weight
+    //if (w == zero3f || !isfinite(w)) break;
 
     // Russian roulette
-    if (bounce > 4) {
+    if (bounce > 3) {
       float rrp = min(1.f, max(w));  // Russian Roulette probability
       if (rand1f(rng) >= rrp) break;
       w *= 1.f / rrp;
