@@ -98,13 +98,11 @@ static vec3f eval_bsdfcos(const material_point& material, const vec3f& normal,
       case material_type::matte:
         return eval_matte(material.color, normal, outgoing, incoming);
       case material_type::glossy:
-        return eval_glossy(material.color, material.ior, material.roughness,
-            normal, outgoing, incoming);
+        return eval_glossy(material.color, material.ior, material.roughness, normal, outgoing, incoming);
       case material_type::reflective:
         return eval_reflective(material.color, material.roughness, normal, outgoing, incoming);
       case material_type::transparent:
-        return eval_transparent(
-            material.color, material.ior, material.roughness, normal, outgoing, incoming);
+        return eval_transparent(material.color, material.ior, material.roughness, normal, outgoing, incoming);
       default: return zero3f;
   }
   return zero3f;
@@ -119,8 +117,7 @@ static vec3f eval_delta(const material_point& material, const vec3f& normal,
     case material_type::reflective:
       return eval_reflective(material.color, normal, outgoing, incoming);
     case material_type::transparent:
-      return eval_transparent(
-          material.color, material.ior, normal, outgoing, incoming);
+      return eval_transparent(material.color, material.ior, normal, outgoing, incoming);
     default: return zero3f;
   }
 
@@ -141,8 +138,7 @@ static vec3f sample_bsdfcos(const material_point& material, const vec3f& normal,
   case material_type::reflective:
     return sample_reflective(material.color, material.roughness, normal, outgoing, rn);
   case material_type::transparent:
-    return sample_transparent(
-        material.color, material.ior, material.roughness, normal, outgoing, rnl, rn);
+    return sample_transparent(material.color, material.ior, material.roughness, normal, outgoing, rnl, rn);
   default: return zero3f;
   }
   return zero3f;
@@ -156,8 +152,7 @@ static vec3f sample_delta(const material_point& material, const vec3f& normal,
     case material_type::reflective:
       return sample_reflective(material.color, normal, outgoing);
     case material_type::transparent:
-      return sample_transparent(
-          material.color, material.ior, normal, outgoing, rnl);
+      return sample_transparent(material.color, material.ior, normal, outgoing, rnl);
     default: return zero3f;
   }
   return zero3f;
@@ -171,13 +166,11 @@ static float sample_bsdfcos_pdf(const material_point& material,
     case material_type::matte:
       return sample_matte_pdf(material.color, normal, outgoing, incoming);
     case material_type::glossy:
-      return sample_glossy_pdf(material.color, material.ior, material.roughness,
-          normal, outgoing, incoming);
+      return sample_glossy_pdf(material.color, material.ior, material.roughness, normal, outgoing, incoming);
     case material_type::reflective:
       return sample_reflective_pdf(material.color, material.roughness, normal, outgoing, incoming);
     case material_type::transparent:
-      return sample_tranparent_pdf(
-          material.color, material.ior, material.roughness, normal, outgoing, incoming);
+      return sample_tranparent_pdf(material.color, material.ior, material.roughness, normal, outgoing, incoming);
     default: 
       return 0;
   }
@@ -186,7 +179,6 @@ static float sample_bsdfcos_pdf(const material_point& material,
 
 static float sample_delta_pdf(const material_point& material,
     const vec3f& normal, const vec3f& outgoing, const vec3f& incoming) {
-  // YOUR CODE GOES HERE
   if (material.roughness != 0) return 0;
   switch (material.type) {
     case material_type::reflective:
@@ -212,11 +204,11 @@ static vec3f sample_lights(const scene_data& scene,
     const instance_data& inst = scene.instances[light.instance];
     auto tid = sample_discrete(light.elements_cdf, rel);
     const shape_data& shape = scene.shapes[inst.shape];
-  
+    
     auto uv = !shape.triangles.empty() ? sample_triangle(ruv) : ruv;
     
-    vec3f local_p = eval_position(scene, inst, tid, uv);
-    return normalize(local_p - position);
+    vec3f p = eval_position(scene, inst, tid, uv);
+    return normalize(p - position);
   } 
   else if (light.environment != invalidid) 
   {
@@ -230,6 +222,7 @@ static vec3f sample_lights(const scene_data& scene,
     return transform_direction(env.frame, 
         vec3f{cos(u * 2 * pif) * sin(v * pif), cos(v * pif), sin(u * 2 * pif) * sin(v * pif)});
   }
+  
   return zero3f;
 }
 
@@ -246,7 +239,6 @@ static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
       vec3f np   = position;
       for (unsigned int bounce = 0; bounce < 100; ++bounce) 
       {
-        //auto ray = transform_ray(inverse(scene.instances[l.instance].frame, false), ray3f{np, direction});
         auto isec = intersect_bvh(bvh, scene, l.instance, ray3f{np, direction});
         if (!isec.hit) break;
 
@@ -278,10 +270,11 @@ static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
         float angle = (2 * pif / texture.width) * (pif / texture.height) *
                       sin(pif * (j + 0.5f) / texture.height);
         pdf += prob / angle;
-      } 
-    }
+      }
+    } 
   }
   pdf *= sample_uniform_pdf(static_cast<int>(lights.lights.size()));
+  
   return pdf;
 }
 
@@ -289,7 +282,6 @@ static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
 static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
     const pathtrace_lights& lights, const ray3f& ray_, rng_state& rng,
     const pathtrace_params& params) {
-  // YOUR CODE GOES HERE
   // Init
   ray3f ray = ray_;
   vec3f l   = zero3f;
@@ -335,9 +327,6 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
       w *= eval_delta(material, normal, outgoing, incoming) /
            sample_delta_pdf(material, normal, outgoing, incoming);
     }
-
-    //// check weight
-    //if (w == zero3f || !isfinite(w)) break;
 
     // Russian roulette
     if (bounce > 3) 
@@ -400,9 +389,6 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
       if (incoming == zero3f) break;
       w *= eval_delta(material, normal, outgoing, incoming) / sample_delta_pdf(material, normal, outgoing, incoming);
     }
-
-    //// check weight
-    //if (w == zero3f || !isfinite(w)) break;
 
     // Russian roulette
     if (bounce > 3) {
