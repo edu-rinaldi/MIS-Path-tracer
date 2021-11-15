@@ -1,0 +1,2 @@
++yocto_pathtrace.cpp
++yocto_shading.h

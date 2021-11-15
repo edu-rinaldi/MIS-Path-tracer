@@ -283,7 +283,132 @@ static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
 }
 
 // Hair bsdf
-//static vec3f eval_hair();
+
+// Constants
+static const float sqrt_pi_over_8 = 0.626657069f;
+
+
+struct hair_bsdf
+{
+  float h = 0;
+  float eta = 1.55f;        // Index of refraction inside hair
+  vec3f sigma_a = zero3f;   // absorption coefficient of the hair interior
+  float beta_m = 0.3f;      // Longitudinal roughness
+  float beta_n = 0.3f;      // Azimuthal roughness
+  float alpha = 2;          // Scale angle
+  int pmax = 3;
+};
+
+static float i0(float x) 
+{
+  float val = 0;
+  float x2i = 1;
+  long ifact = 1;
+  int i4 = 1;
+  // I0(x) \approx Sum_i x^(2i) / (4^i (i!)^2)
+  for (int i = 0; i < 10; ++i) 
+  {
+    if (i > 1) ifact *= i;
+    val += x2i / (i4 * (ifact * ifact));
+    x2i *= x * x;
+    i4 *= 4;
+  }
+  return val;
+}
+
+static inline float logi0(float x) 
+{
+  return x > 12 ? 
+    x + 0.5 * (-log(2.f * pif) + log(1.f / x) + 1 / (8 * x)) :
+    log(i0(x));
+}
+
+static inline float eval_phi(int p, float gamma_o, float gamma_t) { return 2 * p * gamma_t - 2 * gamma_o + p * pif; }
+
+static inline float logistic(float x, float s)
+{
+  x = abs(x);
+  return exp(-x / s) / (s * sqr(1 + exp(-x / s)));
+}
+
+static inline float logistic_cdf(float x, float s) { return 1 / (1 + exp(-x / s));}
+
+static inline float logistic(float x, float s, float a, float b)
+{
+  return logistic(x, s) / (logistic_cdf(b, s) - logistic_cdf(a, s));
+}
+
+static inline float np(float phi, int p, float s, float gamma_o, float gamma_t)
+{
+  float dphi = phi - eval_phi(p, gamma_o, gamma_t);
+  // Remap dphi into [-pi, pi]
+  while(dphi > pif)   dphi -= 2 * pif;
+  while(dphi < -pif)  dphi += 2 * pif;
+
+  return logistic(dphi, s, -pif, pif);
+}
+
+// pbrt refers to this function as "Mp"
+static inline float longitudinal_scattering(float costheta_i, float costheta_o, float sintheta_i, float sintheta_o, float rv)
+{
+  float a  = costheta_i * costheta_o / rv;
+  float b = sintheta_i * sintheta_o / rv;
+  // To limit floating point errors
+  return rv <= 0.1f ? 
+    (exp(logi0(a) - b - 1 / rv + 0.6931f + log(1.f / (2 * rv)))) :
+    (exp(-b) * i0(a)) / (std::sinh(1 / rv) * 2 * rv);
+}
+
+static std::vector<vec3f> ap(float costheta_o, float eta, float h, const vec3f& t, int pmax)
+{
+  std::vector<vec3f> ap(pmax + 1);
+
+  // Compute p = 0 attenuation at initial cylinder intersection
+  float cosgamma_o = sqrt(1 - sqr(h));
+  float costheta = costheta_o * cosgamma_o;
+  float f = fresnel_dielectric(eta, costheta);
+  ap.push_back(vec3f{f});
+
+  // p = 1
+  ap.push_back(sqr(1.f - f) * t);
+
+  // p >= 2
+  for(int p = 2; p < pmax; ++p)
+    ap.push_back(ap[p - 1] * t * f);
+
+  // p = pmax
+  ap.push_back(ap[pmax - 1] * f * t / (one3f - t * f));
+  return ap;
+}
+
+static vec3f eval_hair(const vec3f& outgoing, const vec3f& incoming, hair_bsdf& hair)
+{
+  // Compute hair coordinate system terms related to wo
+  float sintheta_o = outgoing.x;
+  float costheta_o = sqrt(1 - sqr(sintheta_o));
+  float phi_o = atan2(outgoing.z, outgoing.y);
+
+  // Compute hair coordinate system terms related to wi
+  float sintheta_i = incoming.x;
+  float costheta_i = sqrt(1 - sqr(sintheta_i));
+  float phi_i = std::atan2(incoming.z, incoming.y);
+
+  // Compute costheta_t for refracted ray
+  float sintheta_t = sintheta_o / hair.eta;
+  float costheta_t = sqrt(1 - sqr(sintheta_t));
+
+  // Compute cosgamma_t for refracted ray
+  float etap = sqrt(sqr(hair.eta) - sqr(sintheta_o)) / costheta_o;
+  float singamma_t = hair.h / etap;
+  float cosgamma_t = sqrt(1 - sqr(singamma_t));
+  float gamma_t = asin(singamma_t);
+
+  vec3f transmittance = exp(-hair.sigma_a * (2 * cosgamma_t / costheta_t));
+
+
+
+  return zero3f;
+}
 
 // Recursive path tracing.
 static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,

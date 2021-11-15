@@ -330,6 +330,24 @@ inline float fresnel_dielectric(
   return (rs * rs + rp * rp) / 2;
 }
 
+inline float fresnel_dielectric(float eta, float costheta)
+{
+  float sintheta2 = 1 - sqr(costheta);
+  auto eta2 = eta * eta;
+
+  auto cos2t = 1 - sintheta2 / eta2;
+  if (cos2t < 0) return 1;
+
+  float t0 = sqrt(cos2t);
+  float t1 = eta * t0;
+  float t2 = eta * costheta;
+
+  float rs = (costheta - t1) / (costheta + t1);
+  float rp = (t0 - t2) / (t0 + t2);
+
+  return 0.5 * (rs * rs + rp * rp);
+}
+
 // Compute the fresnel term for metals.
 inline vec3f fresnel_conductor(const vec3f& eta, const vec3f& etak,
     const vec3f& normal, const vec3f& outgoing) {
