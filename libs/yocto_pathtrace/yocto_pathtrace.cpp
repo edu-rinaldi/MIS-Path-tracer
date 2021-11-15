@@ -219,8 +219,7 @@ static vec3f sample_lights(const scene_data& scene,
     int tid  = sample_discrete(light.elements_cdf, rel);
     float u  = ((tid % texture.width) + ruv.x) / static_cast<float>(texture.width);
     float v  = ((tid / texture.width) + ruv.y) / static_cast<float>(texture.height);
-    return transform_direction(env.frame, 
-        vec3f{cos(u * 2 * pif) * sin(v * pif), cos(v * pif), sin(u * 2 * pif) * sin(v * pif)});
+    return transform_direction(env.frame, vec3f{cos(u * 2 * pif) * sin(v * pif), cos(v * pif), sin(u * 2 * pif) * sin(v * pif)});
   }
   
   return zero3f;
@@ -229,12 +228,14 @@ static vec3f sample_lights(const scene_data& scene,
 // Sample lights pdf
 static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
     const pathtrace_lights& lights, const vec3f& position,
-    const vec3f& direction) {
+    const vec3f& direction) 
+{
   float pdf = 0.f;
   for (const pathtrace_light& l : lights.lights) 
   {
     if (l.instance != invalidid) 
     {
+      const instance_data& lightInstance = scene.instances[l.instance];
       float lpdf = 0.f;
       vec3f np   = position;
       for (unsigned int bounce = 0; bounce < 100; ++bounce) 
@@ -242,15 +243,18 @@ static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
         auto isec = intersect_bvh(bvh, scene, l.instance, ray3f{np, direction});
         if (!isec.hit) break;
 
+        /*vec3f p = eval_position(scene, lightInstance, isec.element, isec.uv);
+        vec3f n = eval_element_normal(scene, lightInstance, isec.element);*/
+
         vec3f p = eval_position(scene, isec);
-        vec3f n = eval_position(scene, isec);
+        vec3f n = eval_element_normal(scene, isec);
 
         float A = l.elements_cdf.back();
         lpdf += distance_squared(p, position) / (abs(dot(n, direction)) * A);
         np =  p + direction * 1e-3f;
       }
       pdf += lpdf;
-    } 
+    }
     else if (l.environment != invalidid) 
     {
       const environment_data& env     = scene.environments[l.environment];
@@ -267,16 +271,19 @@ static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
             texture.height - 1);
 
         float prob = sample_discrete_pdf(l.elements_cdf, j * texture.width + i) / l.elements_cdf.back();
-        float angle = (2 * pif / texture.width) * (pif / texture.height) *
+        float angle = (2 * pif / texture.width) *
+                      (pif / texture.height) *
                       sin(pif * (j + 0.5f) / texture.height);
         pdf += prob / angle;
       }
     } 
   }
   pdf *= sample_uniform_pdf(static_cast<int>(lights.lights.size()));
-  
   return pdf;
 }
+
+// Hair bsdf
+//static vec3f eval_hair();
 
 // Recursive path tracing.
 static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
@@ -288,7 +295,8 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
   vec3f w   = one3f;
 
   // For bounce 0 --> max_bounce
-  for (unsigned int bounce = 0; bounce < params.bounces; ++bounce) {
+  for (unsigned int bounce = 0; bounce < params.bounces; ++bounce) 
+  {
     const bvh_intersection& isec = intersect_bvh(bvh, scene, ray);
     if (!isec.hit) 
     {
@@ -299,7 +307,6 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
     const vec3f& outgoing = -ray.d;
     const vec3f& position = eval_shading_position(scene, isec, outgoing);
     const vec3f& normal   = eval_shading_normal(scene, isec, outgoing);
-
     const material_point& material = eval_material(scene, isec);
 
     if (rand1f(rng) >= material.opacity) 
@@ -313,8 +320,7 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
     vec3f incoming = zero3f;
     if (!is_delta(material)) 
     {
-      if (rand1f(rng) < 0.5f)
-        incoming = sample_bsdfcos(material, normal, outgoing, rand1f(rng), rand2f(rng));
+      if (rand1f(rng) < 0.5f) incoming = sample_bsdfcos(material, normal, outgoing, rand1f(rng), rand2f(rng));
       else incoming = sample_lights(scene, lights, position, rand1f(rng), rand1f(rng), rand2f(rng));
 
       if (incoming == zero3f) break;
@@ -327,6 +333,9 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
       w *= eval_delta(material, normal, outgoing, incoming) /
            sample_delta_pdf(material, normal, outgoing, incoming);
     }
+
+    // check weight
+    if (w == zero3f || !isfinite(w)) break;
 
     // Russian roulette
     if (bounce > 3) 
@@ -354,7 +363,9 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
   vec3f w   = one3f;
  
   // For bounce 0 --> max_bounce
-  for (unsigned int bounce = 0; bounce < params.bounces; ++bounce) {
+  for (unsigned int bounce = 0; bounce < params.bounces; ++bounce) 
+  {
+    // Intersect scene
     const bvh_intersection& isec = intersect_bvh(bvh, scene, ray);
     if (!isec.hit) 
     {
@@ -365,7 +376,6 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
     const vec3f& outgoing = -ray.d;
     const vec3f& position = eval_shading_position(scene, isec, outgoing);
     const vec3f& normal   = eval_shading_normal(scene, isec, outgoing);
-
     const material_point& material = eval_material(scene, isec);
     
     if (rand1f(rng) >= material.opacity) 
@@ -376,6 +386,7 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
     }
 
     l += w * eval_emission(material, normal, outgoing);
+
     vec3f incoming = zero3f;
     if (!is_delta(material)) 
     {
@@ -389,6 +400,9 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
       if (incoming == zero3f) break;
       w *= eval_delta(material, normal, outgoing, incoming) / sample_delta_pdf(material, normal, outgoing, incoming);
     }
+    
+    // check weight
+    if (w == zero3f || !isfinite(w)) break;
 
     // Russian roulette
     if (bounce > 3) {
@@ -605,9 +619,10 @@ pathtrace_lights make_lights(
 }
 
 // Sampling camera by sampling lens
-ray3f sample_camera(const camera_data& camera, vec2i ij, int img_width, int img_height, vec2f puv, vec2f luv) {
-  auto u = (ij.x + puv.x) / static_cast<float>(img_width);
-  auto v = (ij.y + puv.y) / static_cast<float>(img_height);
+ray3f sample_camera(const camera_data& camera, const vec2i& ij, int img_width, int img_height, const vec2f& puv, const vec2f& luv) 
+{
+  float u = (ij.x + puv.x) / static_cast<float>(img_width);
+  float v = (ij.y + puv.y) / static_cast<float>(img_height);
 
   return eval_camera(camera, {u, v}, sample_disk(luv));
 }
@@ -628,6 +643,7 @@ void pathtrace_samples(pathtrace_state& state, const scene_data& scene,
       auto ray      = sample_camera(camera, {i, j}, state.width, state.height,
                                     vec2f{0.5f, 0.5f}, rand2f(state.rngs[idx]));
       auto radiance = shader(scene, bvh, lights, ray, state.rngs[idx], params);
+      if (max(radiance) > 10) radiance = clamp(radiance, 0, 10);
       if (!isfinite(radiance)) radiance = {0, 0, 0};
       state.image[idx] += radiance;
       state.hits[idx] += 1;
@@ -641,6 +657,7 @@ void pathtrace_samples(pathtrace_state& state, const scene_data& scene,
       auto ray      = sample_camera(camera, {i, j}, state.width, state.height,
                         rand2f(state.rngs[idx]), rand2f(state.rngs[idx]));
       auto radiance = shader(scene, bvh, lights, ray, state.rngs[idx], params);
+      if (max(radiance) > 10) radiance = clamp(radiance, 0, 10);
       if (!isfinite(radiance)) radiance = {0, 0, 0};
       state.image[idx] += radiance;
       state.hits[idx] += 1;
@@ -654,6 +671,7 @@ void pathtrace_samples(pathtrace_state& state, const scene_data& scene,
       auto ray      = sample_camera(camera, {i, j}, state.width, state.height,
                                     rand2f(state.rngs[idx]), rand2f(state.rngs[idx]));
       auto radiance = shader(scene, bvh, lights, ray, state.rngs[idx], params);
+      if (max(radiance) > 10) radiance = clamp(radiance, 0, 10);
       if (!isfinite(radiance)) radiance = {0, 0, 0};
       state.image[idx] += radiance;
       state.hits[idx] += 1;
