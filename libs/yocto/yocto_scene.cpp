@@ -575,6 +575,42 @@ material_point eval_material(const scene_data& scene,
     if (point.roughness < min_roughness) point.roughness = 0;
   }
 
+  // hair
+  if(point.type == material_type::hair)
+  {
+    point.h = -1 + 2 * uv.y;
+    point.gamma_o = asin(point.h);
+    
+    if(point.color != zero3f)
+    {
+      // TODO: sigma_a from reflectance
+    }
+    else if(point.eumelanin || point.pheomelanin)
+    {
+      // TODO: sigma_a from concentration
+    }
+
+    point.rv.push_back(sqr(0.726f * point.beta_m + 0.812f * sqr(point.beta_m) + 3.7f * pow(point.beta_m, 20)));
+    point.rv.push_back(0.25f * point.rv[0]);
+    point.rv.push_back(4 * point.rv[0]);
+
+    for (int p = 3; p <= point.pmax; ++p) point.rv.push_back(point.rv[2]);
+
+    // Compute azimuthal logistic scale factor from beta_n
+    point.s = sqrt_pi_over_8 * (0.265f * point.beta_n + 1.194f * sqr(point.beta_n) + 5.372f * pow(point.beta_n, 22));
+    
+    // Compute alpha terms for hair scales
+    point.sin_2k_alpha.x = std::sin(radians(point.alpha));
+    point.cos_2k_alpha.x = sqrt(1 - sqr(point.sin_2k_alpha.x));
+    
+    point.sin_2k_alpha.y = 2 * point.cos_2k_alpha.x * point.sin_2k_alpha.x;
+    point.cos_2k_alpha.y = sqr(point.cos_2k_alpha.x) - sqr(point.sin_2k_alpha.x);
+
+    point.sin_2k_alpha.z = 2 * point.cos_2k_alpha.y * point.sin_2k_alpha.y;
+    point.cos_2k_alpha.z = sqr(point.cos_2k_alpha.y) - sqr(point.sin_2k_alpha.y);
+
+  }
+
   return point;
 }
 

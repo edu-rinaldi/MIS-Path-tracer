@@ -104,7 +104,7 @@ struct texture_data {
 enum struct material_type {
   // clang-format off
   matte, glossy, reflective, transparent, refractive, subsurface, volumetric, 
-  gltfpbr
+  gltfpbr, hair
   // clang-format on
 };
 
@@ -263,6 +263,22 @@ struct material_point {
   vec3f         scattering   = {0, 0, 0};
   float         scanisotropy = 0;
   float         trdepth      = 0.01f;
+
+  // hairs
+  float         h            = 0;
+  float         eta          = 1.55f;       // Index of refraction inside hair
+  vec3f         sigma_a      = zero3f;      // Absorption coefficient of the hair interior
+  float         beta_m       = 0.3f;       // Longitudinal roughness
+  float         beta_n       = 0.3f;       // Azimuthal roughness
+  float         alpha        = 2;          // Scale angle
+  float         gamma_o      = 0;
+  int           pmax         = 3;
+  float         eumelanin    = 0;
+  float         pheomelanin  = 0;
+  std::vector<float>           rv;
+  float         s            = 0;
+  vec3f         sin_2k_alpha = zero3f;
+  vec3f         cos_2k_alpha = zero3f;
 };
 
 // Eval material to obtain emission, brdf and opacity.

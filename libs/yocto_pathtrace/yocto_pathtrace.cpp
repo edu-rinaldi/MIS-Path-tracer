@@ -235,7 +235,6 @@ static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
   {
     if (l.instance != invalidid) 
     {
-      const instance_data& lightInstance = scene.instances[l.instance];
       float lpdf = 0.f;
       vec3f np   = position;
       for (unsigned int bounce = 0; bounce < 100; ++bounce) 
@@ -284,9 +283,6 @@ static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
 
 // Hair bsdf
 
-// Constants
-static const float sqrt_pi_over_8 = 0.626657069f;
-
 
 struct hair_bsdf
 {
@@ -333,12 +329,20 @@ static inline float logistic(float x, float s)
 
 static inline float logistic_cdf(float x, float s) { return 1 / (1 + exp(-x / s));}
 
+// Trimmed logistic
 static inline float logistic(float x, float s, float a, float b)
 {
   return logistic(x, s) / (logistic_cdf(b, s) - logistic_cdf(a, s));
 }
 
-static inline float np(float phi, int p, float s, float gamma_o, float gamma_t)
+static inline float sample_trimmed_logistic(float u, float s, float a, float b)
+{
+  float k = logistic_cdf(b, s) - logistic_cdf(a, s);
+  float x = -s * log(1 / (u * k + logistic_cdf(a, s)) -1);
+  return clamp(x, a, b);
+}
+
+static inline float eval_np(float phi, int p, float s, float gamma_o, float gamma_t)
 {
   float dphi = phi - eval_phi(p, gamma_o, gamma_t);
   // Remap dphi into [-pi, pi]
@@ -348,8 +352,8 @@ static inline float np(float phi, int p, float s, float gamma_o, float gamma_t)
   return logistic(dphi, s, -pif, pif);
 }
 
-// pbrt refers to this function as "Mp"
-static inline float longitudinal_scattering(float costheta_i, float costheta_o, float sintheta_i, float sintheta_o, float rv)
+// Longitudinal scattering
+static inline float eval_mp(float costheta_i, float costheta_o, float sintheta_i, float sintheta_o, float rv)
 {
   float a  = costheta_i * costheta_o / rv;
   float b = sintheta_i * sintheta_o / rv;
@@ -359,7 +363,7 @@ static inline float longitudinal_scattering(float costheta_i, float costheta_o, 
     (exp(-b) * i0(a)) / (std::sinh(1 / rv) * 2 * rv);
 }
 
-static std::vector<vec3f> ap(float costheta_o, float eta, float h, const vec3f& t, int pmax)
+static std::vector<vec3f> eval_ap(float costheta_o, float eta, float h, const vec3f& t, int pmax)
 {
   std::vector<vec3f> ap(pmax + 1);
 
@@ -381,8 +385,36 @@ static std::vector<vec3f> ap(float costheta_o, float eta, float h, const vec3f& 
   return ap;
 }
 
-static vec3f eval_hair(const vec3f& outgoing, const vec3f& incoming, hair_bsdf& hair)
+static std::vector<float> sample_ap_pdf(const material_point& hair, float costheta_o)
 {
+  // Compute array of ap values for costheta_o
+  float sintheta_o = sqrt(1 - sqr(costheta_o));
+  // Compute costheta_t for refracted ray
+  float sintheta_t = sintheta_o / hair.eta;
+  float costheta_t = sqrt(1 - sqr(sintheta_t));
+  // Compute gamma_t for refracted ray
+  float etap = sqrt(hair.eta * hair.eta - sqr(sintheta_t)) / costheta_o;
+  float singamma_t = hair.h / etap;
+  float cosgamma_t = sqrt(1 - sqr(singamma_t));
+  // Compute transmittance T 
+  vec3f transmittance = exp(-hair.sigma_a * (2* cosgamma_t / costheta_t));
+
+  const std::vector<vec3f> ap = eval_ap(costheta_o, hair.eta, hair.h, transmittance, hair.pmax);
+  // ---
+  
+  // Compute ap pdf from individual ap terms
+  std::vector<float> ap_pdf(hair.pmax + 1);
+  float sum = std::accumulate(ap.begin(), ap.end(), 0.f, [](float s, const vec3f& ap) { return s + ap.y; });
+  for(int i=0; i <= hair.pmax; ++i)
+    ap_pdf.emplace_back(ap[i].y / sum);
+
+  return ap_pdf;
+}
+
+static vec3f eval_hair(const vec3f& outgoing, const vec3f& incoming, const material_point& hair)
+{
+  // Transform direction for outgoing and incoming here
+
   // Compute hair coordinate system terms related to wo
   float sintheta_o = outgoing.x;
   float costheta_o = sqrt(1 - sqr(sintheta_o));
@@ -397,17 +429,173 @@ static vec3f eval_hair(const vec3f& outgoing, const vec3f& incoming, hair_bsdf& 
   float sintheta_t = sintheta_o / hair.eta;
   float costheta_t = sqrt(1 - sqr(sintheta_t));
 
-  // Compute cosgamma_t for refracted ray
-  float etap = sqrt(sqr(hair.eta) - sqr(sintheta_o)) / costheta_o;
+  // Compute gamma_t for refracted ray
+  float etap = sqrt(hair.eta * hair.eta - sqr(sintheta_o)) / costheta_o;
   float singamma_t = hair.h / etap;
   float cosgamma_t = sqrt(1 - sqr(singamma_t));
   float gamma_t = asin(singamma_t);
 
   vec3f transmittance = exp(-hair.sigma_a * (2 * cosgamma_t / costheta_t));
 
+  // Eval hair bsdf
+  float phi = phi_i - phi_o;
+  const std::vector<vec3f>& ap = eval_ap(costheta_o, hair.eta, hair.h, transmittance, hair.pmax);
+  vec3f fsum = zero3f;
+  for(int p = 0; p < hair.pmax; ++p)
+  {
+    // Compute sintheta_o and costheta_o terms accounting for scales
+    float sintheta_op, costheta_op;
+    switch(p)
+    {
+      case 0:
+        sintheta_op = sintheta_o * hair.cos_2k_alpha.y - costheta_o * hair.sin_2k_alpha.y;
+        costheta_op = costheta_o * hair.cos_2k_alpha.y + sintheta_o * hair.sin_2k_alpha.y;
+        break;
+      case 1:
+        sintheta_op = sintheta_o * hair.cos_2k_alpha.x + costheta_o * hair.sin_2k_alpha.x;
+        costheta_op = costheta_o * hair.cos_2k_alpha.x - sintheta_o * hair.sin_2k_alpha.x;
+        break;
+      case 2:
+        sintheta_op = sintheta_o * hair.cos_2k_alpha.z + costheta_o * hair.sin_2k_alpha.z;
+        costheta_op = costheta_o * hair.cos_2k_alpha.z - sintheta_o * hair.sin_2k_alpha.z;
+        break;
+      default:
+        sintheta_op = sintheta_o;
+        costheta_op = costheta_o;
+    }
+    
+    // Handle out-of-range $\cos \thetao$ from scale adjustment
+    costheta_op = std::abs(costheta_op);
+    
+    fsum += eval_mp(costheta_i, costheta_op, sintheta_i, sintheta_op, hair.rv[p]) * ap[p] * eval_np(phi, p, hair.s, hair.gamma_o, gamma_t);
+  }
 
+  // Compute contribution of remaining terms after pmax
+  fsum += eval_mp(costheta_i, costheta_o, sintheta_i, sintheta_o, hair.rv[hair.pmax]) * ap[hair.pmax] / (2.f * pif);
 
-  return zero3f;
+  // if (AbsCosTheta(wi) > 0) fsum /= AbsCosTheta(wi);
+  // CHECK(!std::isinf(fsum.y()) && !std::isnan(fsum.y()));
+  return fsum;
+
+}
+
+static vec3f sample_hair(const material_point& hair, const vec3f& outgoing, const vec2f& ruv, float rn, float rl)
+{
+  // Transform direction here for outgoing
+
+  // Computer hair coordinate system terms related to outgoing
+  float sintheta_o = outgoing.x;
+  float costheta_o = sqrt(1 - sqr(sintheta_o));
+  float phi_o = atan2(outgoing.z, outgoing.y);
+
+  // Sampling p term
+  const std::vector<float>& ap_pdf = sample_ap_pdf(hair, costheta_o);
+  int p;
+  for(p = 0; p < hair.pmax; ++p)
+  {
+    if(rn < ap_pdf[p]) break;
+    rn -= ap_pdf[p];
+  }
+
+  // rotate sintheta_o and costheta_o to account for hair scale tilt
+  float sintheta_op, costheta_op;
+  switch(p)
+  {
+    case 0:
+      sintheta_op = sintheta_o * hair.cos_2k_alpha.y - costheta_o * hair.sin_2k_alpha.y;
+      costheta_op = costheta_o * hair.cos_2k_alpha.y + sintheta_o * hair.sin_2k_alpha.y;
+      break;
+    case 1:
+      sintheta_op = sintheta_o * hair.cos_2k_alpha.x + costheta_o * hair.sin_2k_alpha.x;
+      costheta_op = costheta_o * hair.cos_2k_alpha.x - sintheta_o * hair.sin_2k_alpha.x;
+      break;
+    case 2:
+      sintheta_op = sintheta_o * hair.cos_2k_alpha.z + costheta_o * hair.sin_2k_alpha.z;
+      costheta_op = costheta_o * hair.cos_2k_alpha.z - sintheta_o * hair.sin_2k_alpha.z;
+      break;
+    default:
+      sintheta_op = sintheta_o;
+      costheta_op = costheta_o;
+  }
+
+  // Sample mp to compute theta_i
+  float costheta = 1 + hair.rv[p] * log(ruv.x + (1 - ruv.x) * exp(-2 / hair.rv[p]));
+  float sintheta = sqrt(1 - sqr(costheta));
+  float cosphi = cos(2 * pif * ruv.y);
+  float sintheta_i = -costheta * sintheta_op + sintheta * cosphi * costheta_op;
+  float costheta_i = sqrt(1 - sqr(sintheta_i));
+
+  // Sample np to compute dphi
+  // Compute first gammat for refracted ray
+  float etap = sqrt(hair.eta * hair.eta - sqr(sintheta_o)) / costheta_o;
+  float singamma_t = hair.h / etap;
+  float gamma_t = asin(singamma_t);
+  float dphi = p < hair.pmax ? 
+              eval_phi(p, hair.gamma_o, gamma_t) + sample_trimmed_logistic(rl, hair.s, -pif, pif) :
+              2 * pif * rl;
+  // Compute incoming
+  float phi_i = phi_o + dphi;
+  vec3f incoming = {sintheta_i, costheta_i * cos(phi_i), costheta_i * sin(phi_i)};
+  // TODO: transform direction into world coords
+  return incoming;
+}
+
+static float sample_hair_pdf(const material_point& hair, const vec3f& outgoing, const vec3f& incoming)
+{
+  // TODO: World to bsdf coords
+
+  // Compute hair coordinate system terms related to outgoing
+  float sintheta_o = outgoing.x;
+  float costheta_o = sqrt(1 - sqr(sintheta_o));
+  float phi_o = atan2(outgoing.z, outgoing.y);
+
+  // Compute hair coordinate system terms related to wi
+  float sintheta_i = incoming.x;
+  float costheta_i = sqrt(1 - sqr(sintheta_i));
+  float phi_i = std::atan2(incoming.z, incoming.y);
+
+  // Compute gamma_t for refracted ray
+  float etap = sqrt(hair.eta * hair.eta - sqr(sintheta_o)) / costheta_o;
+  float singamma_t = hair.h / etap;
+  float gamma_t = asin(singamma_t);
+
+  // Compute PDF for ap terms
+  const auto& ap_pdf = sample_ap_pdf(hair, costheta_o);
+
+  // Compute pdf sum for hair scattering events
+  float phi = phi_i - phi_o;
+  float pdf = 0.f;
+  for(int p=0; p<hair.pmax; ++p)
+  {
+    float sintheta_op, costheta_op;
+    switch(p)
+    {
+      case 0:
+        sintheta_op = sintheta_o * hair.cos_2k_alpha.y - costheta_o * hair.sin_2k_alpha.y;
+        costheta_op = costheta_o * hair.cos_2k_alpha.y + sintheta_o * hair.sin_2k_alpha.y;
+        break;
+      case 1:
+        sintheta_op = sintheta_o * hair.cos_2k_alpha.x + costheta_o * hair.sin_2k_alpha.x;
+        costheta_op = costheta_o * hair.cos_2k_alpha.x - sintheta_o * hair.sin_2k_alpha.x;
+        break;
+      case 2:
+        sintheta_op = sintheta_o * hair.cos_2k_alpha.z + costheta_o * hair.sin_2k_alpha.z;
+        costheta_op = costheta_o * hair.cos_2k_alpha.z - sintheta_o * hair.sin_2k_alpha.z;
+        break;
+      default:
+        sintheta_op = sintheta_o;
+        costheta_op = costheta_o;
+    }
+
+    costheta_op = abs(costheta_op);
+    pdf += eval_mp(costheta_i, costheta_op, sintheta_i, sintheta_op, hair.rv[p]) * 
+            ap_pdf[p] *
+            eval_np(phi, p, hair.s, hair.gamma_o, gamma_t);
+  }
+  pdf += eval_mp(costheta_i, costheta_o, sintheta_i, sintheta_o, hair.rv[hair.pmax]) *
+          ap_pdf[hair.pmax] * (1 / (2*pif));
+  
+  return pdf;
 }
 
 // Recursive path tracing.

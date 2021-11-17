@@ -65,6 +65,8 @@ using ushort = unsigned short;
 inline const double pi  = 3.14159265358979323846;
 inline const float  pif = (float)pi;
 
+inline const float sqrt_pi_over_8 = 0.626657069f;
+
 inline const auto int_max = std::numeric_limits<int>::max();
 inline const auto int_min = std::numeric_limits<int>::lowest();
 inline const auto flt_max = std::numeric_limits<float>::max();

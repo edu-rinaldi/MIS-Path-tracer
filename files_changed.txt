@@ -1,2 +1,5 @@
 +yocto_pathtrace.cpp
 +yocto_shading.h
++yocto_scene.h
++yocto_scene.cpp
++yocto_math.h
