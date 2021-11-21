@@ -91,6 +91,17 @@ struct pathtrace_params {
   int                   pratio     = 8;
   float                 exposure   = 0;
   bool                  filmic     = false;
+
+  bool  use_hairbsdf              = false;
+  bool  use_params_values         = false;
+  vec3f sigma_a                   = zero3f;
+  vec3f color                     = zero3f;
+  float eumelanin                 = 0.f;
+  float pheomelanin               = 0.f;
+  float beta_m                    = 0.3f;
+  float beta_n                    = 0.3f;
+  int   hair_color_picking_method = 0;
+
 };
 
 const auto pathtrace_shader_names = vector<string>{

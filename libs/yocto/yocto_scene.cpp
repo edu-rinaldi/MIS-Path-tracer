@@ -525,6 +525,70 @@ vec4f eval_color(const scene_data& scene, const instance_data& instance,
   }
 }
 
+vec3f eval_hair_color(const vec3f& color, float beta_n) 
+{
+  return sqr(log(color) / (5.969f - 0.215f * beta_n + 2.532f * sqr(beta_n) -
+                          10.73f * pow(beta_n, 3) + 5.574f * pow(beta_n, 4) +
+                          0.245f * pow(beta_n, 5)));
+}
+
+vec3f eval_hair_color(float ce, float cp) 
+{
+  auto eumelanin_sigma_a   = vec3f{0.419f, 0.697f, 1.37f};
+  auto pheomelanin_sigma_a = vec3f{0.187f, 0.4f, 1.05f};
+  return ce * eumelanin_sigma_a + cp * pheomelanin_sigma_a;
+}
+
+hair_point eval_hair(const hair_data& hair, const vec2f& uv, const hair_color_evaluation& method) {
+  hair_point point;
+
+  // Copy data
+  point.eta    = hair.eta;
+  point.beta_m = hair.beta_m;
+  point.beta_n = hair.beta_n;
+  point.alpha  = hair.alpha;
+  point.pmax   = hair.pmax;
+
+  point.h       = -1 + 2 * uv.y;
+  point.gamma_o = safe_asin(point.h);
+
+  switch (hair.method) 
+  { 
+    case hair_color_evaluation::sigma_a: point.sigma_a = hair.sigma_a; break;
+    case hair_color_evaluation::color:
+      point.sigma_a = eval_hair_color(hair.color, hair.beta_n);
+      break;
+    case hair_color_evaluation::concentration:
+      point.sigma_a = eval_hair_color(hair.eumelanin, hair.pheomelanin);
+      break;   
+  }
+
+  point.rv.reserve(point.pmax + 1);
+  point.rv.push_back(sqr(0.726f * point.beta_m + 0.812f * sqr(point.beta_m) +
+                         3.7f * pow(point.beta_m, 20)));
+  point.rv.push_back(0.25f * point.rv[0]);
+  point.rv.push_back(4 * point.rv[0]);
+
+  for (int p = 3; p <= point.pmax; ++p) point.rv.push_back(point.rv[2]);
+
+  // Compute azimuthal logistic scale factor from beta_n
+  point.s = sqrt_pi_over_8 *
+            (0.265f * point.beta_n + 1.194f * sqr(point.beta_n) +
+                5.372f * pow(point.beta_n, 22));
+
+  // Compute alpha terms for hair scales
+  point.sin_2k_alpha.x = sin(radians(point.alpha));
+  point.cos_2k_alpha.x = safe_sqrt(1 - sqr(point.sin_2k_alpha.x));
+
+  point.sin_2k_alpha.y = 2 * point.cos_2k_alpha.x * point.sin_2k_alpha.x;
+  point.cos_2k_alpha.y = sqr(point.cos_2k_alpha.x) - sqr(point.sin_2k_alpha.x);
+
+  point.sin_2k_alpha.z = 2 * point.cos_2k_alpha.y * point.sin_2k_alpha.y;
+  point.cos_2k_alpha.z = sqr(point.cos_2k_alpha.y) - sqr(point.sin_2k_alpha.y);
+  
+  return point;
+}
+
 // Evaluate material
 material_point eval_material(const scene_data& scene,
     const instance_data& instance, int element, const vec2f& uv) {
@@ -574,43 +638,7 @@ material_point eval_material(const scene_data& scene,
   } else {
     if (point.roughness < min_roughness) point.roughness = 0;
   }
-
-  // hair
-  if(point.type == material_type::hair)
-  {
-    point.h = -1 + 2 * uv.y;
-    point.gamma_o = asin(point.h);
-    
-    if(point.color != zero3f)
-    {
-      // TODO: sigma_a from reflectance
-    }
-    else if(point.eumelanin || point.pheomelanin)
-    {
-      // TODO: sigma_a from concentration
-    }
-
-    point.rv.push_back(sqr(0.726f * point.beta_m + 0.812f * sqr(point.beta_m) + 3.7f * pow(point.beta_m, 20)));
-    point.rv.push_back(0.25f * point.rv[0]);
-    point.rv.push_back(4 * point.rv[0]);
-
-    for (int p = 3; p <= point.pmax; ++p) point.rv.push_back(point.rv[2]);
-
-    // Compute azimuthal logistic scale factor from beta_n
-    point.s = sqrt_pi_over_8 * (0.265f * point.beta_n + 1.194f * sqr(point.beta_n) + 5.372f * pow(point.beta_n, 22));
-    
-    // Compute alpha terms for hair scales
-    point.sin_2k_alpha.x = std::sin(radians(point.alpha));
-    point.cos_2k_alpha.x = sqrt(1 - sqr(point.sin_2k_alpha.x));
-    
-    point.sin_2k_alpha.y = 2 * point.cos_2k_alpha.x * point.sin_2k_alpha.x;
-    point.cos_2k_alpha.y = sqr(point.cos_2k_alpha.x) - sqr(point.sin_2k_alpha.x);
-
-    point.sin_2k_alpha.z = 2 * point.cos_2k_alpha.y * point.sin_2k_alpha.y;
-    point.cos_2k_alpha.z = sqr(point.cos_2k_alpha.y) - sqr(point.sin_2k_alpha.y);
-
-  }
-
+  
   return point;
 }
 

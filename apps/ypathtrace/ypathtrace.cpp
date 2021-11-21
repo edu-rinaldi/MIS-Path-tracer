@@ -239,6 +239,37 @@ void run_interactive(const string& filename, const string& output,
         reset_display();
       }
     }
+    if (begin_glheader("hair bsdf")) 
+    {
+      auto tparams = params;
+      edited += draw_glcheckbox("use pbrt hair bsdf", tparams.use_hairbsdf);
+      draw_glseparator();
+      edited += draw_glcheckbox("use gui hair material values", tparams.use_params_values);
+      if (tparams.use_params_values) {
+        edited += draw_glcombobox("hair color picking method",
+            tparams.hair_color_picking_method,
+            {"sigma", "color", "concentration"});
+        switch (tparams.hair_color_picking_method) {
+          case 0: edited += draw_glcoloredit("sigma_a", tparams.sigma_a); break;
+          case 1: edited += draw_glcoloredit("color", tparams.color); break;
+          case 2:
+            edited += draw_glslider("eumelanin", tparams.eumelanin, 0.f, 1.f);
+            edited += draw_glslider("pheomelanin", tparams.pheomelanin, 0.f, 1.f);
+            break;
+        }
+        draw_glseparator();
+        edited += draw_glslider("beta_m", tparams.beta_m, 0.f, 1.f);
+        edited += draw_glslider("beta_n", tparams.beta_n, 0.f, 1.f);
+      }
+      
+      end_glheader();
+      if (edited) 
+      {
+        stop_render();
+        params = tparams;
+        reset_display();
+      }
+    }
     if (begin_glheader("tonemap")) {
       edited += draw_glslider("exposure", params.exposure, -5, 5);
       edited += draw_glcheckbox("filmic", params.filmic);
@@ -248,6 +279,16 @@ void run_interactive(const string& filename, const string& output,
         set_image(glimage, display);
       }
     }
+    if (begin_glheader("save image")) {
+      bool clicked = draw_glbutton("save");
+      end_glheader();
+      if (clicked) {
+        print_progress_begin("save image");
+        if (!save_image(output, get_render(state), error)) print_fatal(error);
+        print_progress_end();
+      }
+    }
+
   };
   callbacks.uiupdate_cb = [&](const glinput_state& input) {
     auto edited = false;
@@ -307,6 +348,10 @@ void run(const vector<string>& args) {
   add_option(cli, "samples", params.samples, "Number of samples.", {1, 4096});
   add_option(cli, "bounces", params.bounces, "Number of bounces.", {1, 128});
   add_option(cli, "noparallel", params.noparallel, "Disable threading.");
+
+  // hair bsdf params
+  add_option(cli, "hairbsdf", params.use_hairbsdf, "Enable pbrt hair bsdf");
+  
   if (!parse_cli(cli, args, error)) print_fatal(error);
 
   // run

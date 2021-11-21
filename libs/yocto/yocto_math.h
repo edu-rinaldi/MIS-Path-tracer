@@ -80,10 +80,12 @@ inline float clamp(float a, float min, float max);
 inline float sign(float a);
 inline float sqr(float a);
 inline float sqrt(float a);
+inline float safe_sqrt(float a);
 inline float sin(float a);
 inline float cos(float a);
 inline float tan(float a);
 inline float asin(float a);
+inline float safe_asin(float a);
 inline float acos(float a);
 inline float atan(float a);
 inline float log(float a);
@@ -646,10 +648,12 @@ inline double clamp(double a, double min, double max);
 inline double sign(double a);
 inline double sqr(double a);
 inline double sqrt(double a);
+inline double safe_sqrt(double a);
 inline double sin(double a);
 inline double cos(double a);
 inline double tan(double a);
 inline double asin(double a);
+inline double safe_asin(double a);
 inline double acos(double a);
 inline double atan(double a);
 inline double log(double a);
@@ -1362,10 +1366,12 @@ inline float clamp(float a, float min_, float max_) {
 inline float sign(float a) { return a < 0 ? -1.0f : 1.0f; }
 inline float sqr(float a) { return a * a; }
 inline float sqrt(float a) { return std::sqrt(a); }
+inline float safe_sqrt(float a) { return max(std::sqrt(a), 0.f); }
 inline float sin(float a) { return std::sin(a); }
 inline float cos(float a) { return std::cos(a); }
 inline float tan(float a) { return std::tan(a); }
 inline float asin(float a) { return std::asin(a); }
+inline float safe_asin(float a) { return std::asin(yocto::clamp(a, -1.f, 1.f)); }
 inline float acos(float a) { return std::acos(a); }
 inline float atan(float a) { return std::atan(a); }
 inline float log(float a) { return std::log(a); }
@@ -2189,10 +2195,12 @@ inline double clamp(double a, double min_, double max_) {
 inline double sign(double a) { return a < 0 ? -1 : 1; }
 inline double sqr(double a) { return a * a; }
 inline double sqrt(double a) { return std::sqrt(a); }
+inline double safe_sqrt(double a) { return max(std::sqrt(a), 0.0); }
 inline double sin(double a) { return std::sin(a); }
 inline double cos(double a) { return std::cos(a); }
 inline double tan(double a) { return std::tan(a); }
 inline double asin(double a) { return std::asin(a); }
+inline double safe_asin(double a) { return std::asin(clamp(a, -1.0, 1.0)); }
 inline double acos(double a) { return std::acos(a); }
 inline double atan(double a) { return std::atan(a); }
 inline double log(double a) { return std::log(a); }

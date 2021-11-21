@@ -332,6 +332,8 @@ inline float fresnel_dielectric(
 
 inline float fresnel_dielectric(float eta, float costheta)
 {
+  // Implementation from
+  // https://seblagarde.wordpress.com/2013/04/29/memo-on-fresnel-equations/
   float sintheta2 = 1 - sqr(costheta);
   auto eta2 = eta * eta;
 

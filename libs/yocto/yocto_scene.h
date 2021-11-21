@@ -111,7 +111,25 @@ enum struct material_type {
 // Enum labels
 inline const auto material_type_names = std::vector<std::string>{"matte",
     "glossy", "reflective", "transparent", "refractive", "subsurface",
-    "volumetric", "gltfpbr"};
+    "volumetric", "gltfpbr", "hair"};
+
+enum struct hair_color_evaluation { sigma_a, color, concentration };
+
+struct hair_data {
+  
+  vec3f sigma_a     = zero3f;  // Absorption coefficient of the hair interior
+  vec3f color       = zero3f;
+  float eumelanin   = 0.8f;
+  float pheomelanin = 0.5f;
+  hair_color_evaluation method = hair_color_evaluation::color;
+  
+  float eta    = 1.55f;  // Index of refraction inside hair
+  float beta_m = 0.3f;  // Longitudinal roughness
+  float beta_n = 0.3f;  // Azimuthal roughness
+  float alpha  = 2.f;     // Scale angle
+
+  int pmax = 3;
+};
 
 // Material for surfaces, lines and triangles.
 // For surfaces, uses a microfacet model with thin sheet transmission.
@@ -136,6 +154,10 @@ struct material_data {
   int roughness_tex  = invalidid;
   int scattering_tex = invalidid;
   int normal_tex     = invalidid;
+
+  // hair
+  hair_data hair;
+
 };
 
 // Instance.
@@ -250,6 +272,26 @@ texture_data image_to_texture(const image_data& image);
 // -----------------------------------------------------------------------------
 namespace yocto {
 
+struct hair_point {
+  vec3f sigma_a     = zero3f;  // Absorption coefficient of the hair interior
+  
+  float eta         = 1.55f;   // Index of refraction inside hair
+  float beta_m      = 0.3f;    // Longitudinal roughness
+  float beta_n      = 0.3f;    // Azimuthal roughness
+  float alpha       = 2;       // Scale angle
+  
+  float h           = 0;
+  float gamma_o     = 0;
+  
+  std::vector<float> rv;
+
+  int   pmax         = 3;
+  float s            = 0;
+  vec3f sin_2k_alpha = zero3f;
+  vec3f cos_2k_alpha = zero3f;
+
+};
+
 // Material parameters evaluated at a point on the surface
 struct material_point {
   material_type type         = material_type::gltfpbr;
@@ -265,21 +307,12 @@ struct material_point {
   float         trdepth      = 0.01f;
 
   // hairs
-  float         h            = 0;
-  float         eta          = 1.55f;       // Index of refraction inside hair
-  vec3f         sigma_a      = zero3f;      // Absorption coefficient of the hair interior
-  float         beta_m       = 0.3f;       // Longitudinal roughness
-  float         beta_n       = 0.3f;       // Azimuthal roughness
-  float         alpha        = 2;          // Scale angle
-  float         gamma_o      = 0;
-  int           pmax         = 3;
-  float         eumelanin    = 0;
-  float         pheomelanin  = 0;
-  std::vector<float>           rv;
-  float         s            = 0;
-  vec3f         sin_2k_alpha = zero3f;
-  vec3f         cos_2k_alpha = zero3f;
+  hair_point hair;
 };
+
+hair_point eval_hair(
+    const hair_data& hair, const vec2f& uv,
+    const hair_color_evaluation& method = hair_color_evaluation::color);
 
 // Eval material to obtain emission, brdf and opacity.
 material_point eval_material(const scene_data& scene,
@@ -323,6 +356,9 @@ vec3f eval_shading_normal(const scene_data& scene,
     const vec3f& outgoing);
 vec4f eval_color(const scene_data& scene, const instance_data& instance,
     int element, const vec2f& uv);
+
+vec3f eval_hair_color(const vec3f& color, float beta_n);
+vec3f eval_hair_color(float ce, float cp);
 
 // Eval material to obtain emission, brdf and opacity.
 material_point eval_material(const scene_data& scene,
