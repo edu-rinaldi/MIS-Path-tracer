@@ -1020,9 +1020,6 @@ void pathtrace_samples(pathtrace_state& state, const scene_data& scene,
   } else if (params.noparallel) {
     for (auto idx = 0; idx < state.width * state.height; idx++) {
       auto i = idx % state.width, j = idx / state.width;
-      /*auto u        = (i + rand1f(state.rngs[idx])) / state.width,
-           v        = (j + rand1f(state.rngs[idx])) / state.height;
-      auto ray      = eval_camera(camera, {u, v}, {0, 0});*/
       auto ray      = sample_camera(camera, {i, j}, state.width, state.height,
                         rand2f(state.rngs[idx]), rand2f(state.rngs[idx]));
       auto radiance = shader(scene, bvh, lights, ray, state.rngs[idx], params);
