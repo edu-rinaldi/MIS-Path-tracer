@@ -260,6 +260,7 @@ void run_interactive(const string& filename, const string& output,
         draw_glseparator();
         edited += draw_glslider("beta_m", tparams.beta_m, 0.f, 1.f);
         edited += draw_glslider("beta_n", tparams.beta_n, 0.f, 1.f);
+        edited += draw_glslider("pmax", tparams.pmax, 3, 16);
       }
       
       end_glheader();
@@ -279,14 +280,11 @@ void run_interactive(const string& filename, const string& output,
         set_image(glimage, display);
       }
     }
-    if (begin_glheader("save image")) {
-      bool clicked = draw_glbutton("save");
-      end_glheader();
-      if (clicked) {
-        print_progress_begin("save image");
-        if (!save_image(output, get_render(state), error)) print_fatal(error);
-        print_progress_end();
-      }
+    bool clicked = draw_glbutton("save");
+    if (clicked) {
+      print_progress_begin("save image");
+      if (!save_image(output, get_render(state), error)) print_fatal(error);
+      print_progress_end();
     }
 
   };

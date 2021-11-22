@@ -311,8 +311,7 @@ struct material_point {
 };
 
 hair_point eval_hair(
-    const hair_data& hair, const vec2f& uv,
-    const hair_color_evaluation& method = hair_color_evaluation::color);
+    const hair_data& hair, const vec2f& uv);
 
 // Eval material to obtain emission, brdf and opacity.
 material_point eval_material(const scene_data& scene,

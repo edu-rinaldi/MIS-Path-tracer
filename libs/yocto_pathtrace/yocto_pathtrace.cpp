@@ -226,7 +226,8 @@ static std::vector<float> sample_ap_pdf(
   float singamma_t = hair.h / etap;
   float cosgamma_t = safe_sqrt(1 - sqr(singamma_t));
   // Compute transmittance T
-  vec3f transmittance = exp(-hair.sigma_a * (2.f * cosgamma_t / costheta_t));
+  vec3f transmittance = eval_transmittance(hair.sigma_a, (2.f * cosgamma_t / costheta_t));
+  //vec3f transmittance = exp(-hair.sigma_a * (2.f * cosgamma_t / costheta_t));
 
   const std::vector<vec3f> ap = eval_ap(
       costheta_o, hair.eta, hair.h, transmittance, hair.pmax);
@@ -269,7 +270,8 @@ static vec3f eval_hairbsdf(
   float cosgamma_t = safe_sqrt(1 - sqr(singamma_t));
   float gamma_t    = safe_asin(singamma_t);
 
-  vec3f transmittance = exp(-hair.sigma_a * (2 * cosgamma_t / costheta_t));
+  vec3f transmittance = eval_transmittance(hair.sigma_a, (2 * cosgamma_t / costheta_t));
+  //vec3f transmittance = exp(-hair.sigma_a * (2 * cosgamma_t / costheta_t));
 
   // Eval hair bsdf
   float                     phi = phi_i - phi_o;
@@ -301,7 +303,7 @@ static vec3f eval_hairbsdf(
       default: sintheta_op = sintheta_o; costheta_op = costheta_o;
     }
 
-    // Handle out-of-range $\cos \thetao$ from scale adjustment
+    // Handle out-of-range costheta_o from scale adjustment
     costheta_op = std::abs(costheta_op);
 
     fsum += eval_mp(costheta_i, costheta_op, sintheta_i, sintheta_op, hair.rv[p]) *
@@ -313,7 +315,7 @@ static vec3f eval_hairbsdf(
           ap[hair.pmax] / (2.f * pif);
 
   
-  //if (abs(incoming.z) > 0) fsum /= abs(incoming.z);
+  if (abs(incoming.z) > 0) fsum /= abs(incoming.z);
   return fsum;
 }
 

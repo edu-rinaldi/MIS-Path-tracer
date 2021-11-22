@@ -101,6 +101,7 @@ struct pathtrace_params {
   float beta_m                    = 0.3f;
   float beta_n                    = 0.3f;
   int   hair_color_picking_method = 0;
+  int   pmax                      = 3;
 
 };
 

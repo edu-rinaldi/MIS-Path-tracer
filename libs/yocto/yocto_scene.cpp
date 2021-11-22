@@ -525,21 +525,19 @@ vec4f eval_color(const scene_data& scene, const instance_data& instance,
   }
 }
 
-vec3f eval_hair_color(const vec3f& color, float beta_n) 
+inline vec3f eval_hair_color(const vec3f& color, float beta_n) 
 {
   return sqr(log(color) / (5.969f - 0.215f * beta_n + 2.532f * sqr(beta_n) -
                           10.73f * pow(beta_n, 3) + 5.574f * pow(beta_n, 4) +
                           0.245f * pow(beta_n, 5)));
 }
 
-vec3f eval_hair_color(float ce, float cp) 
+inline vec3f eval_hair_color(float ce, float cp) 
 {
-  auto eumelanin_sigma_a   = vec3f{0.419f, 0.697f, 1.37f};
-  auto pheomelanin_sigma_a = vec3f{0.187f, 0.4f, 1.05f};
-  return ce * eumelanin_sigma_a + cp * pheomelanin_sigma_a;
+  return ce * vec3f{0.419f, 0.697f, 1.37f} + cp * vec3f{0.187f, 0.4f, 1.05f};
 }
 
-hair_point eval_hair(const hair_data& hair, const vec2f& uv, const hair_color_evaluation& method) {
+hair_point eval_hair(const hair_data& hair, const vec2f& uv) {
   hair_point point;
 
   // Copy data
