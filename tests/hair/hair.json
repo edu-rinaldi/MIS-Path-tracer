@@ -1,0 +1,267 @@
+{
+  "asset": {
+    "copyright": "Model by Fabio Pellacini from github.com/~xelatihy/yocto-gl"
+  },
+  "cameras": {
+    "default": {
+      "lens": 0.05,
+      "aperture": 0.0,
+      "aspect": 2.4,
+      "lookat": [
+        -0.75,
+        0.4,
+        0.9,
+        -0.075,
+        0.05,
+        -0.05,
+        0,
+        1,
+        0
+      ]
+    }
+  },
+  "objects": {
+    "floor": {
+      "shape": "floor",
+      "material": "floor"
+    },
+    "arealight1": {
+      "shape": "arealight1",
+      "lookat": [
+        -0.4,
+        0.8,
+        0.8,
+        0,
+        0.1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "material": "arealight1"
+    },
+    "arealight2": {
+      "shape": "arealight2",
+      "lookat": [
+        0.4,
+        0.8,
+        0.8,
+        0,
+        0.1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "material": "arealight2"
+    },
+    "blonde": {
+      "shape": "blonde",
+      "frame": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        -0.4,
+        0,
+        0
+      ],
+      "material": "blonde"
+    },
+    "sphere1": {
+      "shape": "hairballi",
+      "frame": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        -0.2,
+        0,
+        0
+      ],
+      "material": "sphere1"
+    },
+    "hair1": {
+      "shape": "hairball1",
+      "frame": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        -0.2,
+        0,
+        0
+      ],
+      "material": "hair1"
+    },
+    "dark": {
+      "shape": "hairball3",
+      "frame": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "material": "dark"
+    },
+    "sphere2": {
+      "shape": "hairballi",
+      "frame": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0.2,
+        0,
+        0
+      ],
+      "material": "sphere2"
+    },
+    "hair2": {
+      "shape": "hairball3",
+      "frame": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0.2,
+        0,
+        0
+      ],
+      "material": "hair2"
+    },
+    "natural": {
+      "shape": "natural",
+      "frame": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0.4,
+        0,
+        0
+      ],
+      "material": "natural"
+    }
+  },
+  "materials": {
+    "floor": {
+      "color": [
+        0.7,
+        0.7,
+        0.7
+      ],
+      "color_tex": "floor"
+    },
+    "arealight1": {
+      "emission": [
+        20,
+        20,
+        20
+      ]
+    },
+    "arealight2": {
+      "emission": [
+        20,
+        20,
+        20
+      ]
+    },
+    "blonde": {
+      "specular": 0,
+      "color": [
+        0.25,
+        0.50,
+        0.25
+      ]
+    },
+    "sphere1": {
+      "specular": 0,
+      "color": [
+        0.7,
+        0.7,
+        0.7
+      ],
+      "roughness": 1
+    },
+    "hair1": {
+      "specular": 0,
+      "color": [
+        0.5, 
+        0.0, 
+        0.0
+      ]
+    },
+    "dark": {
+      "specular": 0,
+      "color": [
+        0.0, 
+        0.5, 
+        0.0
+      ]
+    },
+    "sphere2": {
+      "specular": 0,
+      "color": [
+        0.7,
+        0.7,
+        0.7
+      ],
+      "roughness": 1
+    },
+    "hair2": {
+      "specular": 0,
+      "color": [
+        0.0, 
+        0.0, 
+        0.5
+      ]
+    },
+    "natural": {
+      "specular": 0,
+      "color": [
+        0.25,
+        0.25,
+        0.50
+      ]
+    }
+  }
+}

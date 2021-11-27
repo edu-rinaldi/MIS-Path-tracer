@@ -80,30 +80,29 @@ namespace yocto {
 [[maybe_unused]] static material_point eval_material(
     const scene_data& scene, const bvh_intersection& intersection, const pathtrace_params& params) 
 {
-  
-  material_point&      point    = eval_material(scene,
-      scene.instances[intersection.instance], intersection.element,
-      intersection.uv);
+  material_point       point    = eval_material(scene,
+               scene.instances[intersection.instance], intersection.element,
+               intersection.uv);
   const instance_data& instance = scene.instances[intersection.instance];
   const shape_data&    shape    = scene.shapes[instance.shape];
   const material_data& material = scene.materials[instance.material];
-  if (params.use_hairbsdf && !shape.lines.empty()) 
-  {
+  if (params.use_hairbsdf && !shape.lines.empty()) {
     // hair
     hair_data hair = material.hair;
     hair.color     = point.color;
     if (params.use_params_values) 
     {
-      hair.sigma_a = params.sigma_a;
-      hair.beta_m  = params.beta_m;
-      hair.beta_n  = params.beta_n;
-      hair.eumelanin = params.eumelanin;
+      hair.sigma_a     = params.sigma_a;
+      hair.beta_m      = params.beta_m;
+      hair.beta_n      = params.beta_n;
+      hair.eumelanin   = params.eumelanin;
       hair.pheomelanin = params.pheomelanin;
-      hair.color = params.color;
-      hair.method      = static_cast<hair_color_evaluation>(params.hair_color_picking_method);
+      hair.color       = params.color;
+      hair.method      = static_cast<hair_color_evaluation>(
+          params.hair_color_picking_method);
     }
-    point.type            = material_type::hair;
-    point.hair            = eval_hair(hair, intersection.uv);
+    point.type = material_type::hair;
+    point.hair = eval_hair(hair, intersection.uv);
   }
   return point;
 }
@@ -121,13 +120,15 @@ static vec3f eval_emission(const material_point& material, const vec3f& normal,
 
 // Hair bsdf
 
-static float i0(float x) {
+static float i0(float x) 
+{
   float val   = 0;
   float x2i   = 1;
   int64_t  ifact = 1;
   int   i4    = 1;
   
-  for (int i = 0; i < 10; ++i) {
+  for (int i = 0; i < 10; ++i) 
+  {
     if (i > 1) ifact *= i;
     val += x2i / (i4 * (ifact * ifact));
     x2i *= x * x;
@@ -136,32 +137,31 @@ static float i0(float x) {
   return val;
 }
 
-static inline float logi0(float x) {
+static inline float logi0(float x) 
+{
   return x > 12 ? 
       x + 0.5f * (-log(2.f * pif) + log(1.f / x) + 1.f / (8.f * x))
     : log(i0(x));
 }
 
-static inline float eval_phi(int p, float gamma_o, float gamma_t) {
-  return 2 * p * gamma_t - 2 * gamma_o + p * pif;
-}
+static inline float eval_phi(int p, float gamma_o, float gamma_t) { return 2 * p * gamma_t - 2 * gamma_o + p * pif; }
 
-static inline float logistic(float x, float s) {
+static inline float logistic(float x, float s) 
+{
   x = abs(x);
   return exp(-x / s) / (s * sqr(1 + exp(-x / s)));
 }
 
-static inline float logistic_cdf(float x, float s) {
-  return 1 / (1 + exp(-x / s));
-}
+static inline float logistic_cdf(float x, float s) { return 1 / (1 + exp(-x / s)); }
 
 // Trimmed logistic
-static inline float logistic(float x, float s, float a, float b) {
+static inline float logistic(float x, float s, float a, float b) 
+{
   return logistic(x, s) / (logistic_cdf(b, s) - logistic_cdf(a, s));
 }
 
-static inline float sample_trimmed_logistic(
-    float u, float s, float a, float b) {
+static inline float sample_trimmed_logistic(float u, float s, float a, float b) 
+{
   float k = logistic_cdf(b, s) - logistic_cdf(a, s);
   float x = -s * log(1 / (u * k + logistic_cdf(a, s)) - 1);
   return clamp(x, a, b);
@@ -178,30 +178,30 @@ static inline float eval_np(
 }
 
 // Longitudinal scattering
-static inline float eval_mp(float costheta_i, float costheta_o,
-    float sintheta_i, float sintheta_o, float rv) {
+static inline float eval_mp(float costheta_i, float costheta_o, float sintheta_i, float sintheta_o, float rv) 
+{
   float a = costheta_i * costheta_o / rv;
   float b = sintheta_i * sintheta_o / rv;
-  // To limit floating point errors
 
+  // To limit floating point errors
   float mp  = rv <= 0.1f
              ? (exp(logi0(a) - b - 1 / rv + 0.6931f + log(1.f / (2 * rv))))
              : (exp(-b) * i0(a)) / (sinh(1 / rv) * 2 * rv);
-  //printf("MP value %g, a %g, costheta_i %g, costheta_o %g\n", mp, a, costheta_i, costheta_o);
   return mp;
 }
 
-static std::vector<vec3f> eval_ap(
-    float costheta_o, float eta, float h, const vec3f& t, int pmax) {
+static std::vector<vec3f> eval_ap(float costheta_o, float eta, float h, const vec3f& t, int pmax) 
+{
   std::vector<vec3f> ap;
   ap.reserve(pmax + 1);
 
   // Compute p = 0 attenuation at initial cylinder intersection
   float cosgamma_o = safe_sqrt(1 - h * h);
   float costheta   = costheta_o * cosgamma_o;
-  //float f          = fresnel_dielectric(eta, costheta);
-  float f = fresnel_dielectric(eta, {0, 0, 1}, {0, 0, costheta});
+  float f          = fresnel_dielectric(eta, costheta);
   ap.push_back(vec3f{f,f,f});
+  // float f = fresnel_dielectric(eta, {0, 0, 1}, {0, 0, costheta});
+  
 
   // p = 1
   ap.push_back(sqr(1.f - f) * t);
@@ -214,8 +214,8 @@ static std::vector<vec3f> eval_ap(
   return ap;
 }
 
-static std::vector<float> sample_ap_pdf(
-    const hair_point& hair, float costheta_o) {
+static std::vector<float> sample_ap_pdf(const hair_point& hair, float costheta_o) 
+{
   // Compute array of ap values for costheta_o
   float sintheta_o = safe_sqrt(1 - sqr(costheta_o));
   // Compute costheta_t for refracted ray
@@ -227,7 +227,6 @@ static std::vector<float> sample_ap_pdf(
   float cosgamma_t = safe_sqrt(1 - sqr(singamma_t));
   // Compute transmittance T
   vec3f transmittance = eval_transmittance(hair.sigma_a, (2.f * cosgamma_t / costheta_t));
-  //vec3f transmittance = exp(-hair.sigma_a * (2.f * cosgamma_t / costheta_t));
 
   const std::vector<vec3f> ap = eval_ap(
       costheta_o, hair.eta, hair.h, transmittance, hair.pmax);
@@ -242,14 +241,8 @@ static std::vector<float> sample_ap_pdf(
   return ap_pdf;
 }
 
-static vec3f eval_hairbsdf(
-    const vec3f& outgoing_, const vec3f& incoming_, const hair_point& hair) {
-  // Transform direction for outgoing and incoming here
-  /*vec3f outgoing = transform_direction(hair.world_to_point, outgoing_);
-  vec3f incoming = transform_direction(hair.world_to_point, incoming_);*/
-  auto outgoing = outgoing_;
-  auto incoming = incoming_;
-
+static vec3f eval_hairbsdf(const vec3f& outgoing, const vec3f& incoming, const hair_point& hair) 
+{
   // Compute hair coordinate system terms related to wo
   float sintheta_o = outgoing.x;
   float costheta_o = safe_sqrt(1 - sqr(sintheta_o));
@@ -271,7 +264,6 @@ static vec3f eval_hairbsdf(
   float gamma_t    = safe_asin(singamma_t);
 
   vec3f transmittance = eval_transmittance(hair.sigma_a, (2 * cosgamma_t / costheta_t));
-  //vec3f transmittance = exp(-hair.sigma_a * (2 * cosgamma_t / costheta_t));
 
   // Eval hair bsdf
   float                     phi = phi_i - phi_o;
@@ -319,11 +311,8 @@ static vec3f eval_hairbsdf(
   return fsum;
 }
 
-static vec3f sample_hair(const hair_point& hair, const vec3f& outgoing_,
+static vec3f sample_hair(const hair_point& hair, const vec3f& outgoing,
     const vec2f& ruv, float rn, float rl) {
-  // Transform direction here for outgoing
-  //vec3f outgoing = transform_direction(hair.world_to_point, outgoing_);
-  auto outgoing = outgoing_;
 
   // Computer hair coordinate system terms related to outgoing
   float sintheta_o = outgoing.x;
@@ -381,19 +370,13 @@ static vec3f sample_hair(const hair_point& hair, const vec3f& outgoing_,
                          : 2 * pif * rl;
   // Compute incoming
   float phi_i    = phi_o + dphi;
-  vec3f incoming_ = {
-      sintheta_i, costheta_i * cos(phi_i), costheta_i * sin(phi_i)};
-  
-  // transform direction into world coords
-  //vec3f incoming = transform_direction(inverse(hair.world_to_point), incoming_);
-  auto incoming = incoming_;
+  vec3f incoming = {sintheta_i, costheta_i * cos(phi_i), costheta_i * sin(phi_i)};
+
   return incoming;
 }
 
-static float sample_hair_pdf(
-    const hair_point& hair, const vec3f& outgoing_, const vec3f& incoming_) {
-  auto outgoing = outgoing_;
-  auto incoming = incoming_;
+static float sample_hair_pdf(const hair_point& hair, const vec3f& outgoing, const vec3f& incoming) 
+{
   // Compute hair coordinate system terms related to outgoing
   float sintheta_o = outgoing.x;
   float costheta_o = safe_sqrt(1 - sqr(sintheta_o));
@@ -405,7 +388,7 @@ static float sample_hair_pdf(
   float phi_i      = std::atan2(incoming.z, incoming.y);
 
   // Compute gamma_t for refracted ray
-  float etap = safe_sqrt(hair.eta * hair.eta - sqr(sintheta_o)) / costheta_o;
+  float etap       = safe_sqrt(hair.eta * hair.eta - sqr(sintheta_o)) / costheta_o;
   float singamma_t = hair.h / etap;
   float gamma_t    = safe_asin(singamma_t);
 
@@ -676,7 +659,7 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
     const vec3f& outgoing = -ray.d;
     const vec3f& position = eval_shading_position(scene, isec, outgoing);
     const vec3f& normal   = eval_shading_normal(scene, isec, outgoing);
-    material_point& material = eval_material(scene, isec, params);
+    const material_point& material = eval_material(scene, isec, params);
 
     if (rand1f(rng) >= material.opacity) 
     {
@@ -1007,8 +990,6 @@ void pathtrace_samples(pathtrace_state& state, const scene_data& scene,
   if (params.samples == 1) {
     for (auto idx = 0; idx < state.width * state.height; idx++) {
       auto i = idx % state.width, j = idx / state.width;
-      // auto u = (i + 0.5f) / state.width, v = (j + 0.5f) / state.height;
-      // auto ray      = eval_camera(camera, {u, v}, {0, 0});
       auto ray      = sample_camera(camera, {i, j}, state.width, state.height,
                                     vec2f{0.5f, 0.5f}, rand2f(state.rngs[idx]));
       auto radiance = shader(scene, bvh, lights, ray, state.rngs[idx], params);
@@ -1031,9 +1012,6 @@ void pathtrace_samples(pathtrace_state& state, const scene_data& scene,
   } else {
     parallel_for(state.width * state.height, [&](int idx) {
       auto i = idx % state.width, j = idx / state.width;
-     /* auto u        = (i + rand1f(state.rngs[idx])) / state.width,
-           v        = (j + rand1f(state.rngs[idx])) / state.height;
-      auto ray      = eval_camera(camera, {u, v}, {0, 0});*/
       auto ray      = sample_camera(camera, {i, j}, state.width, state.height,
                                     rand2f(state.rngs[idx]), rand2f(state.rngs[idx]));
       auto radiance = shader(scene, bvh, lights, ray, state.rngs[idx], params);

@@ -1,0 +1,93 @@
+{
+  "asset": {
+    "copyright": "Hair block model from www.pbrt.org/scenes-v3.html"
+  },
+  "cameras": {
+    "default": {
+      "lens": 0.05,
+      "aperture": 0.0,
+      "aspect": 1.777777778,	
+      "lookat": [
+        -0.5,
+        1.5,
+        5,
+        0.25,
+        0.5,
+        0,
+        0,
+        1,
+        0
+      ]
+    }
+  },
+  "environments": {
+    "sky": {
+      "emission": [
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "objects": {
+    "sphere": {
+      "frame": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        -0.5,
+        0,
+        0
+      ],
+      "shape": "sphere",
+      "material": "diffuse"
+    },
+    "hairblock": {
+      "frame": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        0.5,
+        1,
+        -0.5
+      ],
+      "shape": "hair-block",
+      "material": "hair"
+    }
+  },
+  "materials": {
+    "diffuse": {
+      "color": [
+        0.8,
+        0.4,
+        0.05
+      ]
+    },
+    "hair": {
+      "color": [
+        0.8,
+        0.4,
+        0.05
+      ]
+    },
+    "arealight": {
+      "emission": [
+        20,
+        20,
+        20
+      ]
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "asset": {
+    "copyright": "Head model from www.3dscanstore.com. Hair by model Cem Yuksel from benedikt-bitterli.me/resources",
+    "generator": "Yocto/GL - https://github.com/xelatihy/yocto-gl"
+  },
+  "cameras": {
+    "camera1": {
+      "aspect": 1.0,
+      "focus": 1.059059977531433,
+      "lookat": [
+        -20,
+        15,
+        -30,
+        -3,
+        11,
+        0,
+        0,
+        1,
+        0
+      ],
+      "lens": 0.10000000149011612
+    }
+  },
+  "environments": {
+    "environment1": {
+      "emission": [
+        4.0,
+        4.0,
+        4.0
+      ],
+      "emission_tex": "texture2",
+      "frame": [
+        -0.707099974155426,
+        0.0,
+        -0.707099974155426,
+        0.0,
+        1.0,
+        0.0,
+        0.707099974155426,
+        0.0,
+        -0.707099974155426,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "materials": {
+    "material1": {
+      "color": [
+        0.7110000252723694,
+        0.7110000252723694,
+        0.7110000252723694
+      ],
+      "displacement": 1.0,
+      "roughness": 0.5,
+      "scanisotropy": -0.800000011920929,
+      "scattering": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "scattering_tex": "texture1",
+      "specular": 1.0,
+      "thin": false,
+      "transmission": 1.0,
+      "trdepth": 0.0010000000474974513
+    },
+    "blonde": {
+      "eumelanin": 0.3
+    }
+  },
+  "objects": {
+    "object1": {
+      "material": "material1",
+      "shape": "shape1"
+    },
+    "hair": {
+      "frame": [
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        -1,
+        -1.7,
+        0.5,
+        0
+      ],
+      "shape": "curly-hair",
+      "material": "blonde"
+    }
+  }
+}
