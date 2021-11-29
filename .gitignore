@@ -14,3 +14,12 @@ testsr/
 scripts/sync_yocto.sh
 .vscode
 **/.DS_Store
+tests/hair.zip
+tests/hair/
+tests/bold-man/
+tests/curly-hair
+tests/hair-curls
+tests/sloth
+tests/sphere-hairblock
+tests/straight-hair
+tests/license.txt
