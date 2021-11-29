@@ -355,6 +355,7 @@ vec3f eval_normal(const scene_data& scene, const instance_data& instance,
   }
 }
 
+
 // Eval texcoord
 vec2f eval_texcoord(const scene_data& scene, const instance_data& instance,
     int element, const vec2f& uv) {
@@ -537,9 +538,10 @@ inline vec3f eval_hair_color(float ce, float cp)
   return ce * vec3f{0.419f, 0.697f, 1.37f} + cp * vec3f{0.187f, 0.4f, 1.05f};
 }
 
-hair_point eval_hair(const hair_data& hair, const vec2f& uv) {
+hair_point eval_hair(const hair_data& hair, const vec2f& uv, const vec3f& normal, const vec3f& tangent) 
+{
   hair_point point;
-
+  
   // Copy data
   point.eta    = hair.eta;
   point.beta_m = hair.beta_m;
@@ -583,7 +585,8 @@ hair_point eval_hair(const hair_data& hair, const vec2f& uv) {
 
   point.sin_2k_alpha.z = 2 * point.cos_2k_alpha.y * point.sin_2k_alpha.y;
   point.cos_2k_alpha.z = sqr(point.cos_2k_alpha.y) - sqr(point.sin_2k_alpha.y);
-  
+  point.w2bsdf = inverse(frame_fromzx(zero3f, normal, tangent));
+
   return point;
 }
 

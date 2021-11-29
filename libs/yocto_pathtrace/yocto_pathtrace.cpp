@@ -78,7 +78,7 @@ namespace yocto {
 }
 
 [[maybe_unused]] static material_point eval_material(
-    const scene_data& scene, const bvh_intersection& intersection, const pathtrace_params& params) 
+    const scene_data& scene, const bvh_intersection& intersection, const vec3f& normal, const vec3f& tangent, const pathtrace_params& params) 
 {
   material_point       point    = eval_material(scene,
                scene.instances[intersection.instance], intersection.element,
@@ -102,7 +102,7 @@ namespace yocto {
           params.hair_color_picking_method);
     }
     point.type = material_type::hair;
-    point.hair = eval_hair(hair, intersection.uv);
+    point.hair = eval_hair(hair, intersection.uv, normal, tangent);
   }
   return point;
 }
@@ -241,8 +241,10 @@ static std::vector<float> sample_ap_pdf(const hair_point& hair, float costheta_o
   return ap_pdf;
 }
 
-static vec3f eval_hairbsdf(const vec3f& outgoing, const vec3f& incoming, const hair_point& hair) 
+static vec3f eval_hairbsdf(const vec3f& outgoing_, const vec3f& incoming_, const hair_point& hair) 
 {
+  const auto& outgoing = transform_direction(hair.w2bsdf, outgoing_);
+  const auto& incoming = transform_direction(hair.w2bsdf, incoming_);
   // Compute hair coordinate system terms related to wo
   float sintheta_o = outgoing.x;
   float costheta_o = safe_sqrt(1 - sqr(sintheta_o));
@@ -311,9 +313,10 @@ static vec3f eval_hairbsdf(const vec3f& outgoing, const vec3f& incoming, const h
   return fsum;
 }
 
-static vec3f sample_hair(const hair_point& hair, const vec3f& outgoing,
+static vec3f sample_hair(const hair_point& hair, const vec3f& outgoing_,
     const vec2f& ruv, float rn, float rl) {
-
+  
+  const auto& outgoing = transform_direction(hair.w2bsdf, outgoing_);
   // Computer hair coordinate system terms related to outgoing
   float sintheta_o = outgoing.x;
   float costheta_o = safe_sqrt(1 - sqr(sintheta_o));
@@ -370,13 +373,15 @@ static vec3f sample_hair(const hair_point& hair, const vec3f& outgoing,
                          : 2 * pif * rl;
   // Compute incoming
   float phi_i    = phi_o + dphi;
-  vec3f incoming = {sintheta_i, costheta_i * cos(phi_i), costheta_i * sin(phi_i)};
-
+  vec3f incoming_ = {sintheta_i, costheta_i * cos(phi_i), costheta_i * sin(phi_i)};
+  const auto& incoming = transform_direction(inverse(hair.w2bsdf), incoming_);
   return incoming;
 }
 
-static float sample_hair_pdf(const hair_point& hair, const vec3f& outgoing, const vec3f& incoming) 
+static float sample_hair_pdf(const hair_point& hair, const vec3f& outgoing_, const vec3f& incoming_) 
 {
+  const auto& outgoing = transform_direction(hair.w2bsdf, outgoing_);
+  const auto& incoming = transform_direction(hair.w2bsdf, incoming_);
   // Compute hair coordinate system terms related to outgoing
   float sintheta_o = outgoing.x;
   float costheta_o = safe_sqrt(1 - sqr(sintheta_o));
@@ -645,6 +650,7 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
   ray3f ray = ray_;
   vec3f l   = zero3f;
   vec3f w   = one3f;
+  bool hit = false;
   
   // For bounce 0 --> max_bounce
   for (unsigned int bounce = 0; bounce < params.bounces; ++bounce) 
@@ -659,7 +665,9 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
     const vec3f& outgoing = -ray.d;
     const vec3f& position = eval_shading_position(scene, isec, outgoing);
     const vec3f& normal   = eval_shading_normal(scene, isec, outgoing);
-    const material_point& material = eval_material(scene, isec, params);
+    // Equivalent of eval_tangent(...)
+    const vec3f& tangent  = eval_normal(scene, isec);
+    const material_point& material = eval_material(scene, isec, normal, tangent, params);
 
     if (rand1f(rng) >= material.opacity) 
     {
@@ -667,6 +675,7 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
       bounce -= 1;
       continue;
     }
+    if (bounce == 0) hit = true;
 
     l += w * eval_emission(material, normal, outgoing);
     vec3f incoming = zero3f;
@@ -700,7 +709,7 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
     ray = {position, incoming};
   }
 
-  return rgb_to_rgba(l);
+  return {l.x, l.y, l.z, hit ? 1.f : 0.f};
 }
 
 // Recursive path tracing.
@@ -713,6 +722,7 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
   ray3f ray = ray_;
   vec3f l   = zero3f;
   vec3f w   = one3f;
+  bool  hit = false;
  
   // For bounce 0 --> max_bounce
   for (unsigned int bounce = 0; bounce < params.bounces; ++bounce) 
@@ -728,7 +738,10 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
     const vec3f& outgoing = -ray.d;
     const vec3f& position = eval_shading_position(scene, isec, outgoing);
     const vec3f& normal   = eval_shading_normal(scene, isec, outgoing);
-    const material_point& material = eval_material(scene, isec, params);
+    // Equivalent of eval_tangent(...)
+    const vec3f& tangent  = eval_normal(scene, isec);
+    const material_point& material = eval_material(
+        scene, isec, normal, tangent, params);
     
     if (rand1f(rng) >= material.opacity) 
     {
@@ -736,6 +749,8 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
       bounce -= 1;
       continue;
     }
+
+    if (bounce == 0) hit = true;
 
     l += w * eval_emission(material, normal, outgoing);
 
@@ -766,7 +781,7 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
     ray = {position, incoming};
   }
 
-  return rgb_to_rgba(l);
+  return {l.x, l.y, l.z, hit ? 1.f : 0.f};
 }
 
 // Eyelight for quick previewing.
@@ -792,7 +807,11 @@ static vec4f shade_eyelight(const scene_data& scene, const bvh_data& bvh,
     auto outgoing = -ray.d;
     auto position = eval_shading_position(scene, intersection, outgoing);
     auto normal   = eval_shading_normal(scene, intersection, outgoing);
-    auto material = eval_material(scene, intersection);
+    auto tangent  = eval_normal(scene, intersection);
+    
+    const material_point& material = eval_material(
+        scene, intersection, normal, tangent, params);
+    
 
     // handle opacity
     if (material.opacity < 1 && rand1f(rng) >= material.opacity) {
@@ -822,6 +841,7 @@ static vec4f shade_eyelight(const scene_data& scene, const bvh_data& bvh,
 
     // setup next iteration
     ray = {position, incoming};
+    break;
   }
 
   return {radiance.x, radiance.y, radiance.z, hit ? 1.0f : 0.0f};

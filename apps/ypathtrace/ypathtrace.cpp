@@ -253,8 +253,8 @@ void run_interactive(const string& filename, const string& output,
           case 0: edited += draw_glcoloredit("sigma_a", tparams.sigma_a); break;
           case 1: edited += draw_glcoloredit("color", tparams.color); break;
           case 2:
-            edited += draw_glslider("eumelanin", tparams.eumelanin, 0.f, 1.f);
-            edited += draw_glslider("pheomelanin", tparams.pheomelanin, 0.f, 1.f);
+            edited += draw_glslider("eumelanin", tparams.eumelanin, 0.f, 8.f);
+            edited += draw_glslider("pheomelanin", tparams.pheomelanin, 0.f, 8.f);
             break;
         }
         draw_glseparator();

@@ -289,6 +289,7 @@ struct hair_point {
   float s            = 0;
   vec3f sin_2k_alpha = zero3f;
   vec3f cos_2k_alpha = zero3f;
+  frame3f w2bsdf;
 
 };
 
@@ -310,8 +311,8 @@ struct material_point {
   hair_point hair;
 };
 
-hair_point eval_hair(
-    const hair_data& hair, const vec2f& uv);
+hair_point eval_hair(const hair_data& hair, const vec2f& uv,
+    const vec3f& normal, const vec3f& tangent);
 
 // Eval material to obtain emission, brdf and opacity.
 material_point eval_material(const scene_data& scene,

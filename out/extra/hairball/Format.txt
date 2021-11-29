@@ -1,0 +1,13 @@
+Each filename follows a specific format:
+
+- If sigma_a from concentration is used: 07_hair_concentration_<eumelanin>_<pheomelanin>_<resolution>_<samples>.<extension>
+- If sigma_a from color is used:	 07_hair_color_<r>_<g>_<b>_<samples>.<extension>
+
+
+Each render is done with following "constant" hair parameters:
+- beta_m = 0.3
+- beta_n = 0.3
+- eta    = 1.55
+- alpha  = 2
+- pmax	 = 3
+
