@@ -461,6 +461,9 @@ static vec3f eval_bsdfcos(const material_point& material, const vec3f& normal,
         return eval_reflective(material.color, material.roughness, normal, outgoing, incoming);
       case material_type::transparent:
         return eval_transparent(material.color, material.ior, material.roughness, normal, outgoing, incoming);
+      case material_type::refractive:
+        return eval_refractive(material.color, material.ior, material.roughness,
+            normal, outgoing, incoming);
       case material_type::hair:
         return eval_hairbsdf(outgoing, incoming, material.hair);
       default: return zero3f;
@@ -477,6 +480,9 @@ static vec3f eval_delta(const material_point& material, const vec3f& normal,
       return eval_reflective(material.color, normal, outgoing, incoming);
     case material_type::transparent:
       return eval_transparent(material.color, material.ior, normal, outgoing, incoming);
+    case material_type::refractive:
+      return eval_refractive(
+          material.color, material.ior, normal, outgoing, incoming);
     case material_type::hair:
       return eval_hairbsdf(outgoing, incoming, material.hair);
     default: return zero3f;
@@ -499,6 +505,9 @@ static vec3f sample_bsdfcos(const material_point& material, const vec3f& normal,
     return sample_reflective(material.color, material.roughness, normal, outgoing, rn);
   case material_type::transparent:
     return sample_transparent(material.color, material.ior, material.roughness, normal, outgoing, rnl, rn);
+  case material_type::refractive:
+    return sample_refractive(material.color, material.ior, material.roughness,
+        normal, outgoing, rnl, rn);
   case material_type::hair:
     return sample_hair(material.hair, outgoing, rn, rnl, rl);
   default: return zero3f;
@@ -514,6 +523,9 @@ static vec3f sample_delta(const material_point& material, const vec3f& normal,
       return sample_reflective(material.color, normal, outgoing);
     case material_type::transparent:
       return sample_transparent(material.color, material.ior, normal, outgoing, rnl);
+    case material_type::refractive:
+      return sample_refractive(
+          material.color, material.ior, normal, outgoing, rnl);
     case material_type::hair:
       return sample_hair(material.hair, outgoing, rn, rnl, rl);
     default: return zero3f;
@@ -534,6 +546,9 @@ static float sample_bsdfcos_pdf(const material_point& material,
       return sample_reflective_pdf(material.color, material.roughness, normal, outgoing, incoming);
     case material_type::transparent:
       return sample_tranparent_pdf(material.color, material.ior, material.roughness, normal, outgoing, incoming);
+    case material_type::refractive:
+      return sample_refractive_pdf(material.color, material.ior,
+          material.roughness, normal, outgoing, incoming);
     case material_type::hair: 
       return sample_hair_pdf(material.hair, outgoing, incoming);
     default: 
@@ -550,6 +565,9 @@ static float sample_delta_pdf(const material_point& material,
       return sample_reflective_pdf(material.color, normal, outgoing, incoming);
     case material_type::transparent:
       return sample_tranparent_pdf(
+          material.color, material.ior, normal, outgoing, incoming);
+    case material_type::refractive:
+      return sample_refractive_pdf(
           material.color, material.ior, normal, outgoing, incoming);
     case material_type::hair:
       return sample_hair_pdf(material.hair, outgoing, incoming);
