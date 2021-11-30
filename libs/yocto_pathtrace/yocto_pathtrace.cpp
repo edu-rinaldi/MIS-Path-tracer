@@ -80,15 +80,18 @@ namespace yocto {
 [[maybe_unused]] static material_point eval_material(
     const scene_data& scene, const bvh_intersection& intersection, const vec3f& normal, const vec3f& tangent, const pathtrace_params& params) 
 {
+  // Call eval material and then modify the material_point for hair material
   material_point       point    = eval_material(scene,
                scene.instances[intersection.instance], intersection.element,
                intersection.uv);
   const instance_data& instance = scene.instances[intersection.instance];
   const shape_data&    shape    = scene.shapes[instance.shape];
   const material_data& material = scene.materials[instance.material];
+
   if (params.use_hairbsdf && !shape.lines.empty()) {
     // hair
     hair_data hair = material.hair;
+    // Hair color is just the material color
     hair.color     = point.color;
     if (params.use_params_values) 
     {
@@ -98,10 +101,11 @@ namespace yocto {
       hair.eumelanin   = params.eumelanin;
       hair.pheomelanin = params.pheomelanin;
       hair.color       = params.color;
-      hair.method      = static_cast<hair_color_evaluation>(
-          params.hair_color_picking_method);
+      hair.method      = static_cast<hair_color_evaluation>(params.hair_color_picking_method);
     }
+    // Set material type hair so that later can be used in switch(material.type){..}
     point.type = material_type::hair;
+    // Evaluate some hair parameters on intersection point (e.g. h value)
     point.hair = eval_hair(hair, intersection.uv, normal, tangent);
   }
   return point;
@@ -118,7 +122,7 @@ static vec3f eval_emission(const material_point& material, const vec3f& normal,
   return dot(normal, outgoing) >= 0 ? material.emission : vec3f{0, 0, 0};
 }
 
-// Hair bsdf
+// --- HAIR BSDF EXTRA CREDIT ---
 
 static float i0(float x) 
 {
@@ -243,8 +247,10 @@ static std::vector<float> sample_ap_pdf(const hair_point& hair, float costheta_o
 
 static vec3f eval_hairbsdf(const vec3f& outgoing_, const vec3f& incoming_, const hair_point& hair) 
 {
+  // Transform outgoing and incoming directions to bsdf coordinate system
   const auto& outgoing = transform_direction(hair.w2bsdf, outgoing_);
   const auto& incoming = transform_direction(hair.w2bsdf, incoming_);
+
   // Compute hair coordinate system terms related to wo
   float sintheta_o = outgoing.x;
   float costheta_o = safe_sqrt(1 - sqr(sintheta_o));
@@ -315,7 +321,7 @@ static vec3f eval_hairbsdf(const vec3f& outgoing_, const vec3f& incoming_, const
 
 static vec3f sample_hair(const hair_point& hair, const vec3f& outgoing_,
     const vec2f& ruv, float rn, float rl) {
-  
+  // Transform outgoing direction to bsdf coordinate system
   const auto& outgoing = transform_direction(hair.w2bsdf, outgoing_);
   // Computer hair coordinate system terms related to outgoing
   float sintheta_o = outgoing.x;
@@ -374,12 +380,13 @@ static vec3f sample_hair(const hair_point& hair, const vec3f& outgoing_,
   // Compute incoming
   float phi_i    = phi_o + dphi;
   vec3f incoming_ = {sintheta_i, costheta_i * cos(phi_i), costheta_i * sin(phi_i)};
-  const auto& incoming = transform_direction(inverse(hair.w2bsdf), incoming_);
-  return incoming;
+  // Transform incoming direction to world coordinate system
+  return transform_direction(inverse(hair.w2bsdf), incoming_);
 }
 
 static float sample_hair_pdf(const hair_point& hair, const vec3f& outgoing_, const vec3f& incoming_) 
 {
+  // Transform outgoing and incoming directions to bsdf coordinate system
   const auto& outgoing = transform_direction(hair.w2bsdf, outgoing_);
   const auto& incoming = transform_direction(hair.w2bsdf, incoming_);
   // Compute hair coordinate system terms related to outgoing
@@ -442,7 +449,6 @@ static float sample_hair_pdf(const hair_point& hair, const vec3f& outgoing_, con
 // Evaluates/sample the BRDF scaled by the cosine of the incoming direction.
 static vec3f eval_bsdfcos(const material_point& material, const vec3f& normal,
     const vec3f& outgoing, const vec3f& incoming) {
-  // YOUR CODE GOES HERE
   if (material.roughness == 0) return zero3f;
 
   switch (material.type) 
@@ -464,7 +470,6 @@ static vec3f eval_bsdfcos(const material_point& material, const vec3f& normal,
 
 static vec3f eval_delta(const material_point& material, const vec3f& normal,
     const vec3f& outgoing, const vec3f& incoming) {
-  // YOUR CODE GOES HERE
   if (material.roughness != 0) return zero3f;
 
   switch (material.type) {
@@ -483,7 +488,6 @@ static vec3f eval_delta(const material_point& material, const vec3f& normal,
 // Picks a direction based on the BRDF
 static vec3f sample_bsdfcos(const material_point& material, const vec3f& normal,
     const vec3f& outgoing, float rnl, float rl, const vec2f& rn) {
-  // YOUR CODE GOES HERE
   if (material.roughness == 0) return zero3f;
   switch (material.type) 
   { 
@@ -504,7 +508,6 @@ static vec3f sample_bsdfcos(const material_point& material, const vec3f& normal,
 
 static vec3f sample_delta(const material_point& material, const vec3f& normal,
     const vec3f& outgoing, float rnl, float rl, const vec2f& rn) {
-  // YOUR CODE GOES HERE
   if (material.roughness != 0) return zero3f;
   switch (material.type) {
     case material_type::reflective:
@@ -562,18 +565,21 @@ static vec3f sample_lights(const scene_data& scene,
   // Sample random light
   unsigned int lid = sample_uniform(static_cast<int>(lights.lights.size()), rl);
   const pathtrace_light& light = lights.lights[lid];
-
+  // Handle light object
   if (light.instance != invalidid) 
   {
     const instance_data& inst = scene.instances[light.instance];
+    // Sample triangle/quad
     auto tid = sample_discrete(light.elements_cdf, rel);
     const shape_data& shape = scene.shapes[inst.shape];
     
+    // Sample uv 
     auto uv = !shape.triangles.empty() ? sample_triangle(ruv) : ruv;
     
     vec3f p = eval_position(scene, inst, tid, uv);
     return normalize(p - position);
   } 
+  // Handle environment light
   else if (light.environment != invalidid) 
   {
     const environment_data& env = scene.environments[light.environment]; 
@@ -597,6 +603,7 @@ static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
   float pdf = 0.f;
   for (const pathtrace_light& l : lights.lights) 
   {
+    // light object
     if (l.instance != invalidid) 
     {
       float lpdf = 0.f;
@@ -615,6 +622,7 @@ static float sample_lights_pdf(const scene_data& scene, const bvh_data& bvh,
       }
       pdf += lpdf;
     }
+    // light from environment map
     else if (l.environment != invalidid) 
     {
       const environment_data& env     = scene.environments[l.environment];
@@ -662,6 +670,7 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
       break;
     }
 
+    // Eval position, normal, tangent (for hair bsdf) and material
     const vec3f& outgoing = -ray.d;
     const vec3f& position = eval_shading_position(scene, isec, outgoing);
     const vec3f& normal   = eval_shading_normal(scene, isec, outgoing);
@@ -669,6 +678,7 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
     const vec3f& tangent  = eval_normal(scene, isec);
     const material_point& material = eval_material(scene, isec, normal, tangent, params);
 
+    // Handle opacity
     if (rand1f(rng) >= material.opacity) 
     {
       ray = {position + ray.d * 1e-2f, ray.d};
@@ -677,17 +687,23 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
     }
     if (bounce == 0) hit = true;
 
+
+    // Emission
     l += w * eval_emission(material, normal, outgoing);
     vec3f incoming = zero3f;
+    // BSDF
     if (!is_delta(material)) 
     {
+      // MIS
       if (rand1f(rng) < 0.5f) incoming = sample_bsdfcos(material, normal, outgoing, rand1f(rng), rand1f(rng), rand2f(rng));
       else incoming = sample_lights(scene, lights, position, rand1f(rng), rand1f(rng), rand2f(rng));
 
       if (incoming == zero3f) break;
       w *= eval_bsdfcos(material, normal, outgoing, incoming) /
            (0.5f * sample_bsdfcos_pdf(material, normal, outgoing, incoming) + 0.5f * sample_lights_pdf(scene, bvh, lights, position, incoming));
-    } else 
+    } 
+    // Delta material
+    else 
     {
       incoming = sample_delta(material, normal, outgoing, rand1f(rng), rand1f(rng), rand2f(rng));
       if (incoming == zero3f) break;
@@ -705,7 +721,7 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
       if (rand1f(rng) >= rrp) break;
       w *= 1.f / rrp;
     }
-
+    // Recurse
     ray = {position, incoming};
   }
 
@@ -716,7 +732,6 @@ static vec4f shade_pathtrace(const scene_data& scene, const bvh_data& bvh,
 static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
     const pathtrace_lights& lights, const ray3f& ray_, rng_state& rng,
     const pathtrace_params& params) {
-  // YOUR CODE GOES HERE
 
   // Init
   ray3f ray = ray_;
@@ -735,14 +750,16 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
       break;
     }
 
+
+    // Eval position, normal, tangent (for hair bsdf) and material
     const vec3f& outgoing = -ray.d;
     const vec3f& position = eval_shading_position(scene, isec, outgoing);
     const vec3f& normal   = eval_shading_normal(scene, isec, outgoing);
     // Equivalent of eval_tangent(...)
     const vec3f& tangent  = eval_normal(scene, isec);
-    const material_point& material = eval_material(
-        scene, isec, normal, tangent, params);
+    const material_point& material = eval_material(scene, isec, normal, tangent, params);
     
+    // handle opacity
     if (rand1f(rng) >= material.opacity) 
     {
       ray = {position + ray.d * 1e-2f, ray.d};
@@ -752,15 +769,18 @@ static vec4f shade_naive(const scene_data& scene, const bvh_data& bvh,
 
     if (bounce == 0) hit = true;
 
+    // Emission
     l += w * eval_emission(material, normal, outgoing);
 
     vec3f incoming = zero3f;
+    // BSDF
     if (!is_delta(material)) 
     {
       incoming = sample_bsdfcos(material, normal, outgoing, rand1f(rng), rand1f(rng), rand2f(rng));
       if (incoming == zero3f) break;
       w *= eval_bsdfcos(material, normal, outgoing, incoming) / sample_bsdfcos_pdf(material, normal, outgoing, incoming);
     } 
+    // Delta material
     else 
     {
       incoming = sample_delta(material, normal, outgoing, rand1f(rng), rand1f(rng), rand2f(rng));
