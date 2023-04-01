@@ -43,13 +43,15 @@ In this homework/project the following features are implemented:
 
 Extra information about Hair BSDF implementation can be found in `report.pdf`
 ## Some renders
-
-### MIS Path tracer
-![Car](out/path/14_car1_720_256.jpg)
-![Classroom](out/path/15_classroom_720_256.jpg)
-![Coffee](out/path/16_coffee_720_256.jpg)
-
-Other renders can be found in `out/` folder
+Other renders can be found in `out/` folder.
+### Car
+![Car](out/highres/14_car1_1280_1024.jpg)
+### Classroom
+![Classroom](out/highres/15_classroom_71280_1024.jpg)
+### Coffee
+![Coffee](out/highres/16_coffee_1280_1024.jpg)
+### Kitchen
+![Kitchen](out/highres/17_kitchen_1280_1024.jpg)
 
 ### Hair
 ![Curly hair](out/extra/curlyhair/curlyhair_0.3_0.3_720_256.jpg)
